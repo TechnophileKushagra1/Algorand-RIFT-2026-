@@ -1,0 +1,3432 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)file:///Users/arjunscode/Downloads/index_v2_integrated%202.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muse v2 — NFT + RWA Marketplace on Algorand</title>
+  <link href="./file_files/css2" rel="stylesheet">
+  <script src="./file_files/chart.umd.min.js"></script>
+  <style>
+    /* ══════════════════════════════════════════════z DESIGN TOKENS — Dark Obsidian + Gold Meridian
+    ══════════════════════════════════════════════ */
+    :root {
+      --bg0:      #08090d;
+      --bg1:      #0f1119;
+      --bg2:      #161924;
+      --bg3:      #1e2230;
+      --bg4:      #262b3a;
+      --line:     #2a2f42;
+      --text0:    #edeef5;
+      --text1:    #b8bcd4;
+      --text2:    #7a7f9a;
+      --text3:    #4a4e65;
+
+      --gold:     #d4a843;
+      --gold2:    #f0c96a;
+      --gold3:    #a07820;
+      --amber:    #e07b1a;
+      --crimson:  #cc3a3a;
+      --emerald:  #1fa86e;
+      --sapphire: #2d7fca;
+      --violet:   #7c4dcc;
+      --rose:     #c94d8a;
+
+      /* Role colors */
+      --athlete:  #d4a843;
+      --league:   #2d7fca;
+      --charity:  #1fa86e;
+      --media:    #7c4dcc;
+
+      --r: 3px;
+      --sh: 0 8px 32px rgba(0,0,0,0.5);
+      --sh2: 0 2px 12px rgba(0,0,0,0.4);
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg0);
+      color: var(--text0);
+      font-family: 'Syne', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      min-height: 100vh;
+      background-image:
+        radial-gradient(ellipse 80% 40% at 50% -10%, rgba(212,168,67,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 90% 50%, rgba(45,127,202,0.05) 0%, transparent 60%);
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg1); }
+    ::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 10px; }
+
+    /* ══════════════════════════════════════════════
+       NAVIGATION
+    ══════════════════════════════════════════════ */
+    nav {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(8,9,13,0.85);
+      backdrop-filter: blur(20px) saturate(1.5);
+      border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 64px;
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 12px;
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.6rem;
+      letter-spacing: -0.5px;
+    }
+    .nav-gem {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, var(--gold3), var(--gold2));
+      clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; color: var(--bg0);
+      font-family: 'Syne Mono', monospace;
+      animation: gemPulse 3s ease-in-out infinite;
+    }
+    @keyframes gemPulse {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.3) drop-shadow(0 0 8px rgba(212,168,67,0.6)); }
+    }
+    .nav-badge {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 1px;
+      background: linear-gradient(90deg, var(--gold3), var(--gold));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      border: 1px solid var(--gold3);
+      padding: 2px 7px;
+      border-radius: 20px;
+      margin-left: 4px;
+    }
+    .nav-tabs {
+      display: flex; gap: 2px;
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 4px;
+    }
+    .nav-tab {
+      padding: 6px 16px;
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.4px;
+      color: var(--text2);
+      cursor: pointer;
+      border-radius: 5px;
+      border: none; background: none;
+      transition: all 0.2s;
+    }
+    .nav-tab:hover { color: var(--text0); background: var(--bg3); }
+    .nav-tab.active { color: var(--bg0); background: var(--gold); }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .wallet-btn {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 18px;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      border-radius: var(--r);
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem; font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .wallet-btn:hover { background: var(--gold); color: var(--bg0); }
+    .wallet-btn.connected { background: rgba(31,168,110,0.15); border-color: var(--emerald); color: var(--emerald); }
+    .wallet-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: blink 2s infinite; }
+    @keyframes blink { 0%, 100% { opacity:1; } 50% { opacity:0.3; } }
+
+    /* ══════════════════════════════════════════════
+       PAGE SECTIONS (Tab Panels)
+    ══════════════════════════════════════════════ */
+    .page { display: none; }
+    .page.active { display: block; animation: fadeUp 0.3s ease; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ══════════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════════ */
+    .hero {
+      min-height: 52vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 5rem 2rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 60% at 50% 50%, rgba(212,168,67,0.06) 0%, transparent 70%);
+    }
+    .hero-eyebrow {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 3px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .hero-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      line-height: 1.05;
+      letter-spacing: -2px;
+      margin-bottom: 1.2rem;
+    }
+    .hero-title em { font-style: italic; color: var(--gold); }
+    .hero-sub {
+      font-size: 1.05rem; color: var(--text1);
+      max-width: 540px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+    .hero-chips {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      justify-content: center;
+      margin-bottom: 2.5rem;
+    }
+    .chip {
+      font-size: 0.72rem; font-weight: 600;
+      padding: 5px 13px;
+      border-radius: 20px;
+      border: 1px solid;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .chip-gold   { border-color: var(--gold3);   color: var(--gold);   background: rgba(212,168,67,0.08); }
+    .chip-blue   { border-color: #1e5585;         color: var(--sapphire); background: rgba(45,127,202,0.08); }
+    .chip-green  { border-color: #155c3d;         color: var(--emerald);  background: rgba(31,168,110,0.08); }
+    .chip-violet { border-color: #4d2e88;         color: var(--violet);   background: rgba(124,77,204,0.08); }
+    .chip-rose   { border-color: #7d2e57;         color: var(--rose);     background: rgba(201,77,138,0.08); }
+
+    /* ══════════════════════════════════════════════
+       LAYOUT / CONTAINERS
+    ══════════════════════════════════════════════ */
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 2.5rem; }
+    .section { padding: 3rem 0; }
+    .section-header {
+      display: flex; align-items: baseline; gap: 16px;
+      margin-bottom: 2rem;
+    }
+    .section-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2rem;
+      letter-spacing: -0.5px;
+    }
+    .section-sub {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.7rem; color: var(--text2);
+      letter-spacing: 2px;
+    }
+    .divider { height: 1px; background: var(--line); margin: 2rem 0; }
+
+    /* ══════════════════════════════════════════════
+       STATS BAR
+    ══════════════════════════════════════════════ */
+    .stats-bar {
+      background: var(--bg1);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-bottom: 3rem;
+      overflow: hidden;
+    }
+    .stat-cell {
+      padding: 1.5rem 2rem;
+      border-right: 1px solid var(--line);
+      position: relative;
+    }
+    .stat-cell:last-child { border-right: none; }
+    .stat-label {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--text2);
+      margin-bottom: 0.5rem;
+    }
+    .stat-value {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2rem;
+      letter-spacing: -0.5px;
+    }
+    .stat-value.gold   { color: var(--gold); }
+    .stat-value.green  { color: var(--emerald); }
+    .stat-value.blue   { color: var(--sapphire); }
+    .stat-delta {
+      font-size: 0.72rem; color: var(--text2);
+      margin-top: 4px;
+    }
+
+    /* ══════════════════════════════════════════════
+       NFT GRID
+    ══════════════════════════════════════════════ */
+    .nft-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .nft-card {
+      background: var(--bg1);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      cursor: pointer;
+      position: relative;
+    }
+    .nft-card:hover {
+      border-color: var(--gold3);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(212,168,67,0.1);
+    }
+    .nft-card.rwa { border-color: rgba(31,168,110,0.3); }
+    .nft-card.rwa:hover { border-color: var(--emerald); }
+    .nft-card.auction { border-color: rgba(224,123,26,0.3); }
+    .nft-card.auction:hover { border-color: var(--amber); }
+
+    .card-art {
+      width: 100%; aspect-ratio: 1;
+      background: var(--bg2);
+      position: relative;
+      overflow: hidden;
+    }
+    .card-art canvas { width: 100%; height: 100%; }
+
+    .card-badges {
+      position: absolute; top: 12px; left: 12px;
+      display: flex; gap: 6px; flex-wrap: wrap;
+    }
+    .badge {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.6rem; letter-spacing: 1px;
+      padding: 3px 8px;
+      border-radius: 2px;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+    .badge-rwa       { background: rgba(31,168,110,0.9);  color: #fff; }
+    .badge-auth      { background: rgba(212,168,67,0.9);  color: #000; }
+    .badge-auction   { background: rgba(224,123,26,0.9);  color: #fff; }
+    .badge-redeemed  { background: rgba(122,127,154,0.9); color: #fff; }
+    .badge-decaying  { background: rgba(204,58,58,0.9);   color: #fff; }
+    .badge-waived    { background: rgba(124,77,204,0.9);  color: #fff; }
+    .badge-pending   { background: rgba(45,127,202,0.9);  color: #fff; }
+
+    .card-body { padding: 1.2rem 1.4rem; }
+    .card-creator {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 1px;
+      color: var(--text2); text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .card-name {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.3rem; letter-spacing: -0.3px;
+      margin-bottom: 0.7rem;
+      line-height: 1.2;
+    }
+
+    .card-meta {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0.7rem;
+      margin-bottom: 1rem;
+    }
+    .meta-item { }
+    .meta-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 1px; color: var(--text3); text-transform: uppercase; margin-bottom: 2px; }
+    .meta-value { font-family: 'Syne Mono', monospace; font-size: 0.82rem; color: var(--text1); }
+    .meta-value.gold { color: var(--gold); }
+    .meta-value.green { color: var(--emerald); }
+    .meta-value.red { color: var(--crimson); }
+
+    /* Auction countdown */
+    .auction-bar {
+      background: var(--bg2);
+      border-top: 1px solid var(--line);
+      padding: 10px 1.4rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .auction-label { font-size: 0.68rem; font-weight: 600; color: var(--amber); letter-spacing: 0.5px; }
+    .auction-timer { font-family: 'Syne Mono', monospace; font-size: 0.82rem; color: var(--text0); }
+
+    /* Royalty splits mini bar */
+    .splits-bar {
+      height: 4px;
+      border-radius: 2px;
+      overflow: hidden;
+      display: flex;
+      margin-bottom: 1rem;
+    }
+    .split-seg { height: 100%; transition: width 0.4s ease; }
+
+    /* Card actions */
+    .card-actions { display: flex; gap: 8px; }
+    .btn {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.78rem; font-weight: 700;
+      padding: 9px 18px;
+      border-radius: var(--r);
+      border: none; cursor: pointer;
+      transition: all 0.18s;
+      letter-spacing: 0.3px;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--bg0);
+      flex: 1;
+    }
+    .btn-primary:hover { background: var(--gold2); }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--text1);
+    }
+    .btn-outline:hover { border-color: var(--text1); color: var(--text0); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text2);
+      font-size: 0.72rem; padding: 9px 12px;
+    }
+    .btn-ghost:hover { color: var(--text0); background: var(--bg3); }
+    .btn-green { background: var(--emerald); color: #fff; flex: 1; }
+    .btn-green:hover { filter: brightness(1.1); }
+    .btn-amber { background: var(--amber); color: #fff; flex: 1; }
+    .btn-amber:hover { filter: brightness(1.1); }
+    .btn-violet { background: var(--violet); color: #fff; flex: 1; }
+    .btn-violet:hover { filter: brightness(1.1); }
+
+    /* ══════════════════════════════════════════════
+       FORMS
+    ══════════════════════════════════════════════ */
+    .form-grid { display: grid; gap: 1.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label {
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.8px; text-transform: uppercase;
+      color: var(--text2);
+    }
+    .field input, .field textarea, .field select {
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      padding: 10px 14px;
+      color: var(--text0);
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.82rem;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    .field input:focus, .field textarea:focus, .field select:focus {
+      outline: none;
+      border-color: var(--gold3);
+    }
+    .field textarea { min-height: 80px; resize: vertical; }
+    .field select { appearance: none; cursor: pointer; }
+    .field-hint { font-size: 0.68rem; color: var(--text3); }
+
+    /* ══════════════════════════════════════════════
+       PANEL / CARD CONTAINERS
+    ══════════════════════════════════════════════ */
+    .panel {
+      background: var(--bg1);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 2rem;
+    }
+    .panel-header {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .panel-header .icon {
+      font-size: 1.1rem;
+      width: 34px; height: 34px;
+      background: var(--bg3);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ══════════════════════════════════════════════
+       ROLE CARDS (Co-creator slots)
+    ══════════════════════════════════════════════ */
+    .role-slots { display: grid; gap: 1rem; margin-top: 1rem; }
+    .role-slot {
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 1rem 1.2rem;
+      display: grid;
+      grid-template-columns: 36px 1fr auto auto;
+      gap: 12px; align-items: center;
+    }
+    .role-icon {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .role-icon.athlete { background: rgba(212,168,67,0.15); color: var(--gold); }
+    .role-icon.league  { background: rgba(45,127,202,0.15); color: var(--sapphire); }
+    .role-icon.charity { background: rgba(31,168,110,0.15); color: var(--emerald); }
+    .role-icon.media   { background: rgba(124,77,204,0.15); color: var(--violet); }
+    .role-name { font-weight: 700; font-size: 0.82rem; }
+    .role-addr { font-family: 'Syne Mono', monospace; font-size: 0.68rem; color: var(--text2); margin-top: 2px; }
+    .role-share {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.88rem; font-weight: 600;
+      color: var(--gold);
+    }
+    .role-status {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.5px;
+      padding: 3px 8px; border-radius: 2px;
+    }
+    .status-pending  { background: rgba(45,127,202,0.15); color: var(--sapphire); }
+    .status-accepted { background: rgba(31,168,110,0.15); color: var(--emerald); }
+
+    /* ══════════════════════════════════════════════
+       SPLIT VISUALIZER
+    ══════════════════════════════════════════════ */
+    .split-viz { margin-top: 1.5rem; }
+    .split-row {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 10px;
+    }
+    .split-label {
+      width: 120px; font-size: 0.72rem;
+      font-weight: 600; color: var(--text1);
+      flex-shrink: 0;
+    }
+    .split-track {
+      flex: 1; height: 8px;
+      background: var(--bg3);
+      border-radius: 4px; overflow: hidden;
+    }
+    .split-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+    .split-pct {
+      width: 45px; text-align: right;
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.72rem; color: var(--text2);
+    }
+
+    /* ══════════════════════════════════════════════
+       ANALYTICS CHART
+    ══════════════════════════════════════════════ */
+    .chart-wrap {
+      background: var(--bg1);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 1.5rem;
+      position: relative;
+    }
+    .chart-title {
+      font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: var(--text2); margin-bottom: 1rem;
+    }
+
+    /* ══════════════════════════════════════════════
+       AUCTION BID SECTION
+    ══════════════════════════════════════════════ */
+    .bid-section {
+      background: rgba(224,123,26,0.06);
+      border: 1px solid rgba(224,123,26,0.25);
+      border-radius: 6px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .bid-section h3 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.2rem; color: var(--amber);
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .bid-history {
+      margin-top: 1rem;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .bid-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 12px;
+      background: var(--bg2);
+      border-radius: 4px;
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.75rem;
+    }
+    .bid-row.winning { border-left: 3px solid var(--gold); }
+    .bid-winner { color: var(--gold); }
+    .bid-amount { color: var(--text0); font-weight: 600; }
+
+    /* ══════════════════════════════════════════════
+       RWA PHYSICAL STATE
+    ══════════════════════════════════════════════ */
+    .physical-state {
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 1.2rem;
+      margin-top: 1rem;
+    }
+    .physical-timeline {
+      display: flex; gap: 0;
+      margin-top: 1rem;
+    }
+    .timeline-step {
+      flex: 1; text-align: center; position: relative;
+    }
+    .timeline-step::before {
+      content: ''; position: absolute;
+      top: 14px; left: 50%; right: -50%;
+      height: 2px; background: var(--line);
+    }
+    .timeline-step:last-child::before { display: none; }
+    .timeline-dot {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--bg3);
+      border: 2px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem;
+      margin: 0 auto 8px;
+      position: relative; z-index: 1;
+      transition: all 0.3s;
+    }
+    .timeline-dot.done { background: var(--emerald); border-color: var(--emerald); color: #fff; }
+    .timeline-dot.current { background: var(--gold); border-color: var(--gold); color: var(--bg0); animation: gemPulse 2s infinite; }
+    .timeline-label { font-size: 0.65rem; font-weight: 600; color: var(--text2); }
+
+    /* ══════════════════════════════════════════════
+       NOTIFICATION TOAST
+    ══════════════════════════════════════════════ */
+    .toast-container { position: fixed; bottom: 2rem; right: 2rem; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
+    .toast {
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 14px 18px;
+      min-width: 280px; max-width: 380px;
+      box-shadow: var(--sh);
+      animation: slideIn 0.3s ease;
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    @keyframes slideIn {
+      from { opacity:0; transform: translateX(20px); }
+      to   { opacity:1; transform: translateX(0); }
+    }
+    .toast.success { border-left: 3px solid var(--emerald); }
+    .toast.error   { border-left: 3px solid var(--crimson); }
+    .toast.info    { border-left: 3px solid var(--sapphire); }
+    .toast.warning { border-left: 3px solid var(--amber); }
+    .toast-icon { font-size: 1rem; margin-top: 2px; }
+    .toast-body { flex: 1; }
+    .toast-title { font-size: 0.82rem; font-weight: 700; margin-bottom: 2px; }
+    .toast-msg { font-size: 0.75rem; color: var(--text1); }
+
+    /* ══════════════════════════════════════════════
+       MODAL
+    ══════════════════════════════════════════════ */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(4px);
+      z-index: 500;
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem;
+    }
+    .modal {
+      background: var(--bg1);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      width: 100%; max-width: 600px;
+      max-height: 90vh; overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+      animation: fadeUp 0.25s ease;
+    }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .modal-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.6rem; letter-spacing: -0.3px;
+    }
+    .modal-close {
+      background: var(--bg3); border: none;
+      color: var(--text2); border-radius: 4px;
+      width: 32px; height: 32px;
+      cursor: pointer; font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .modal-close:hover { background: var(--bg4); color: var(--text0); }
+
+    /* ══════════════════════════════════════════════
+       WALLET SELECTOR
+    ══════════════════════════════════════════════ */
+    .wallet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+    .wallet-option {
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 1.2rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .wallet-option:hover { border-color: var(--gold3); background: var(--bg3); }
+    .wallet-logo { font-size: 2rem; margin-bottom: 8px; }
+    .wallet-name { font-size: 0.85rem; font-weight: 700; }
+    .wallet-desc { font-size: 0.68rem; color: var(--text2); margin-top: 4px; }
+
+    /* ══════════════════════════════════════════════
+       CREATOR PROFILE
+    ══════════════════════════════════════════════ */
+    .creator-profile {
+      display: flex; gap: 2rem; align-items: flex-start;
+      margin-bottom: 2.5rem;
+    }
+    .creator-avatar {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      border: 2px solid var(--gold3);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .creator-info { flex: 1; }
+    .creator-name {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2rem; letter-spacing: -0.5px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .verified-badge {
+      display: inline-flex; align-items: center;
+      background: linear-gradient(135deg, var(--gold3), var(--gold));
+      color: var(--bg0); border-radius: 20px;
+      padding: 2px 10px;
+      font-size: 0.68rem; font-weight: 800;
+      letter-spacing: 1px; font-family: 'Syne', sans-serif;
+    }
+    .creator-addr { font-family: 'Syne Mono', monospace; font-size: 0.75rem; color: var(--text2); margin-top: 4px; }
+    .creator-stats { display: flex; gap: 2rem; margin-top: 1rem; }
+    .creator-stat { }
+    .creator-stat-val { font-family: 'Instrument Serif', serif; font-size: 1.4rem; color: var(--gold); }
+    .creator-stat-lbl { font-size: 0.68rem; font-weight: 600; letter-spacing: 1px; color: var(--text2); text-transform: uppercase; }
+
+    /* ══════════════════════════════════════════════
+       BATCH MINT
+    ══════════════════════════════════════════════ */
+    .batch-item {
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 0.8rem;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .batch-num {
+      width: 28px; height: 28px;
+      background: var(--bg3);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.75rem; color: var(--text2);
+      flex-shrink: 0;
+    }
+    .batch-info { flex: 1; }
+    .batch-name { font-size: 0.85rem; font-weight: 700; }
+    .batch-meta { font-family: 'Syne Mono', monospace; font-size: 0.7rem; color: var(--text2); }
+    .batch-remove {
+      background: none; border: none; color: var(--text3); cursor: pointer;
+      font-size: 1rem; padding: 4px;
+      border-radius: 4px; transition: color 0.2s;
+    }
+    .batch-remove:hover { color: var(--crimson); }
+
+    /* ══════════════════════════════════════════════
+       DECAY CHART INDICATOR
+    ══════════════════════════════════════════════ */
+    .decay-indicator {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--bg2); border-radius: 4px;
+      padding: 12px 16px; margin-top: 1rem;
+    }
+    .decay-track {
+      flex: 1; height: 6px;
+      background: var(--bg3); border-radius: 3px; overflow: hidden;
+    }
+    .decay-fill {
+      height: 100%; border-radius: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--crimson));
+      transition: width 0.5s;
+    }
+    .decay-info { font-family: 'Syne Mono', monospace; font-size: 0.72rem; color: var(--text2); }
+
+    /* ══════════════════════════════════════════════
+       TABS within sections
+    ══════════════════════════════════════════════ */
+    .inner-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 2rem; }
+    .inner-tab {
+      padding: 10px 18px;
+      font-size: 0.78rem; font-weight: 600;
+      color: var(--text2); cursor: pointer;
+      border: none; background: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: all 0.2s;
+    }
+    .inner-tab:hover { color: var(--text0); }
+    .inner-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+    /* ══════════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .stats-bar { grid-template-columns: repeat(2,1fr); }
+      .form-row, .form-row-3 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 650px) {
+      nav { padding: 0 1rem; }
+      .container { padding: 0 1rem; }
+      .nav-tabs { display: none; }
+      .stats-bar { grid-template-columns: 1fr; }
+      .creator-profile { flex-direction: column; }
+    }
+
+    /* ══════════════════════════════════════════════
+       GENERATIVE ART (Canvas placeholder art)
+    ══════════════════════════════════════════════ */
+    .art-canvas { width: 100%; height: 100%; display: block; }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════
+     NAVIGATION
+════════════════════════════════════════════════ -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-gem">M</div>
+    Muse
+    <span class="nav-badge">v2 · ALGORAND</span>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage(&#39;marketplace&#39;)">Marketplace</button>
+    <button class="nav-tab" onclick="showPage(&#39;mint&#39;)">Mint</button>
+    <button class="nav-tab" onclick="showPage(&#39;rwa&#39;)">RWA</button>
+    <button class="nav-tab" onclick="showPage(&#39;analytics&#39;)">Analytics</button>
+    <button class="nav-tab" onclick="showPage(&#39;profile&#39;)">Profile</button>
+    <button class="nav-tab" onclick="showPage(&#39;tests&#39;)" style="color:var(--emerald);">⚙ Tests</button>
+  </div>
+  <div class="nav-right">
+    <button class="wallet-btn" id="walletBtn" onclick="showWalletModal()">
+      <span>Connect Wallet</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════════
+     PAGE: MARKETPLACE
+════════════════════════════════════════════════ -->
+<div class="page active" id="page-marketplace">
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-eyebrow">Algorand · ARC-69 · Testnet</div>
+    <h1 class="hero-title">Own the <em>moment.</em><br>Own the <em>memory.</em></h1>
+    <p class="hero-sub">The only marketplace with on-chain fractional royalties, time-decaying splits, RWA physical tethering, and live auctions — all enforced by smart contract.</p>
+    <div class="hero-chips">
+      <span class="chip chip-gold">⧫ Time-Decaying Royalties</span>
+      <span class="chip chip-blue">⊕ 4-Way Splits</span>
+      <span class="chip chip-green">⬡ Physical Asset RWA</span>
+      <span class="chip chip-violet">⧉ Auction &amp; Bidding</span>
+      <span class="chip chip-rose">⊞ Royalty Buy-Out</span>
+    </div>
+    <div style="display:flex;gap:12px;">
+      <button class="btn btn-primary" onclick="showPage(&#39;mint&#39;)" style="padding:12px 28px;font-size:0.92rem;">Mint NFT</button>
+      <button class="btn btn-outline" onclick="showPage(&#39;rwa&#39;)" style="padding:12px 28px;font-size:0.92rem;">List RWA</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat-cell">
+        <div class="stat-label">Total Volume</div>
+        <div class="stat-value gold" id="stat-volume">0.42 Ⱥ</div>
+        <div class="stat-delta">↑ +12.4% this week</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">NFTs Minted</div>
+        <div class="stat-value" id="stat-minted">1,847</div>
+        <div class="stat-delta">Incl. 214 RWA tethered</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Royalties Paid</div>
+        <div class="stat-value green" id="stat-royalties">0.03 Ⱥ</div>
+        <div class="stat-delta">Across 2,901 transfers</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Live Auctions</div>
+        <div class="stat-value blue" id="stat-auctions">7</div>
+        <div class="stat-delta">Highest bid: 420 Ⱥ</div>
+      </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div style="display:flex;gap:8px;margin-bottom:2rem;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="filterCards(&#39;all&#39;)" id="f-all">All</button>
+      <button class="btn btn-ghost" onclick="filterCards(&#39;digital&#39;)" id="f-digital">Digital NFT</button>
+      <button class="btn btn-ghost" onclick="filterCards(&#39;rwa&#39;)" id="f-rwa">⬡ RWA</button>
+      <button class="btn btn-ghost" onclick="filterCards(&#39;auction&#39;)" id="f-auction">⧉ Auctions</button>
+      <button class="btn btn-ghost" onclick="filterCards(&#39;waived&#39;)" id="f-waived">⊞ Royalty-Free</button>
+    </div>
+
+    <!-- NFT Grid -->
+    <div class="nft-grid" id="nft-grid"><div class="nft-card">
+      <div class="card-art">
+        <canvas class="art-canvas" data-colors="%5B%22%23d4a843%22%2C%22%23a07820%22%2C%22%232d7fca%22%5D" data-seed="219" width="382" height="382"></canvas>
+        <div class="card-badges"><span class="badge badge-decaying">⏱ Decay</span></div>
+      </div>
+      <div class="card-body">
+        <div class="card-creator">Studio Meridian</div>
+        <div class="card-name">Solstice Bloom #07</div>
+        <div class="splits-bar"><div class="split-seg" style="width:40%;background:#d4a843;"></div><div class="split-seg" style="width:30%;background:#2d7fca;"></div><div class="split-seg" style="width:20%;background:#1fa86e;"></div><div class="split-seg" style="width:10%;background:#7c4dcc;"></div></div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Price</div><span class="meta-value gold">24 Ⱥ</span></div>
+          <div class="meta-item"><div class="meta-label">Royalty</div><div class="meta-value ">10%</div></div>
+          <div class="meta-item"><div class="meta-label">Transfers</div><div class="meta-value">3×</div></div>
+          <div class="meta-item"><div class="meta-label">Splits</div><div class="meta-value">4</div></div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="event.stopPropagation();buyNFT(219)">Buy</button>
+          <button class="btn btn-violet" onclick="event.stopPropagation();buyOutRoyalty(219)" style="font-size:0.7rem;">⊞ Buy-Out</button>
+          <button class="btn btn-ghost" onclick="event.stopPropagation();showDetailModal(allNFTs.find(n=&gt;n.id===219))">···</button>
+        </div>
+      </div>
+      
+    </div><div class="nft-card rwa">
+      <div class="card-art">
+        <canvas class="art-canvas" data-colors="%5B%22%231fa86e%22%2C%22%23155c3d%22%2C%22%23d4a843%22%5D" data-seed="220" width="382" height="382"></canvas>
+        <div class="card-badges"><span class="badge badge-rwa">⬡ RWA</span><span class="badge badge-auth">✓ Auth</span></div>
+      </div>
+      <div class="card-body">
+        <div class="card-creator">Sports Vault Auth.</div>
+        <div class="card-name">Finals Game 7 Jersey</div>
+        <div class="splits-bar"><div class="split-seg" style="width:50%;background:#d4a843;"></div><div class="split-seg" style="width:25%;background:#2d7fca;"></div><div class="split-seg" style="width:15%;background:#1fa86e;"></div><div class="split-seg" style="width:7%;background:#7c4dcc;"></div><div class="split-seg" style="width:3%;background:#4a4e65;"></div></div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Price</div><span class="meta-value gold">4200 Ⱥ</span></div>
+          <div class="meta-item"><div class="meta-label">Royalty</div><div class="meta-value ">12%</div></div>
+          <div class="meta-item"><div class="meta-label">Transfers</div><div class="meta-value">1×</div></div>
+          <div class="meta-item"><div class="meta-label">Splits</div><div class="meta-value">5</div></div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="event.stopPropagation();buyNFT(220)">Buy</button>
+          <button class="btn btn-violet" onclick="event.stopPropagation();buyOutRoyalty(220)" style="font-size:0.7rem;">⊞ Buy-Out</button>
+          <button class="btn btn-ghost" onclick="event.stopPropagation();showDetailModal(allNFTs.find(n=&gt;n.id===220))">···</button>
+        </div>
+      </div>
+      
+    </div><div class="nft-card">
+      <div class="card-art">
+        <canvas class="art-canvas" data-colors="%5B%22%23c94d8a%22%2C%22%237c4dcc%22%2C%22%232d7fca%22%5D" data-seed="221" width="382" height="382"></canvas>
+        <div class="card-badges"><span class="badge badge-waived">⊞ Royalty-Free</span></div>
+      </div>
+      <div class="card-body">
+        <div class="card-creator">Pixel Anarchy</div>
+        <div class="card-name">Neon Glitch Series #3</div>
+        <div class="splits-bar"><div class="split-seg" style="width:87.5%;background:#c94d8a;"></div><div class="split-seg" style="width:12.5%;background:#4a4e65;"></div></div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Price</div><span class="meta-value gold">8 Ⱥ</span></div>
+          <div class="meta-item"><div class="meta-label">Royalty</div><div class="meta-value red">0% (waived)</div></div>
+          <div class="meta-item"><div class="meta-label">Transfers</div><div class="meta-value">12×</div></div>
+          <div class="meta-item"><div class="meta-label">Splits</div><div class="meta-value">2</div></div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="event.stopPropagation();buyNFT(221)">Buy</button>
+          
+          <button class="btn btn-ghost" onclick="event.stopPropagation();showDetailModal(allNFTs.find(n=&gt;n.id===221))">···</button>
+        </div>
+      </div>
+      
+    </div><div class="nft-card rwa auction">
+      <div class="card-art">
+        <canvas class="art-canvas" data-colors="%5B%22%23d4a843%22%2C%22%23f0c96a%22%2C%22%23cc3a3a%22%5D" data-seed="222" width="382" height="382"></canvas>
+        <div class="card-badges"><span class="badge badge-rwa">⬡ RWA</span><span class="badge badge-auth">✓ Auth</span><span class="badge badge-auction">⧉ Auction</span><span class="badge badge-decaying">⏱ Decay</span></div>
+      </div>
+      <div class="card-body">
+        <div class="card-creator">Ring Bearer LLC</div>
+        <div class="card-name">Championship Ring</div>
+        <div class="splits-bar"><div class="split-seg" style="width:40%;background:#d4a843;"></div><div class="split-seg" style="width:30%;background:#2d7fca;"></div><div class="split-seg" style="width:20%;background:#1fa86e;"></div><div class="split-seg" style="width:10%;background:#4a4e65;"></div></div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Price</div><span class="meta-value gold">12000 Ⱥ bid</span></div>
+          <div class="meta-item"><div class="meta-label">Royalty</div><div class="meta-value ">15%</div></div>
+          <div class="meta-item"><div class="meta-label">Transfers</div><div class="meta-value">0×</div></div>
+          <div class="meta-item"><div class="meta-label">Splits</div><div class="meta-value">4</div></div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-amber" onclick="event.stopPropagation();bidOnNFT(222)">⧉ Bid</button>
+          <button class="btn btn-violet" onclick="event.stopPropagation();buyOutRoyalty(222)" style="font-size:0.7rem;">⊞ Buy-Out</button>
+          <button class="btn btn-ghost" onclick="event.stopPropagation();showDetailModal(allNFTs.find(n=&gt;n.id===222))">···</button>
+        </div>
+      </div>
+      <div class="auction-bar"><span class="auction-label">⧉ LIVE AUCTION</span><span class="auction-timer" id="timer-222">3h 59m 4s</span></div>
+    </div><div class="nft-card">
+      <div class="card-art">
+        <canvas class="art-canvas" data-colors="%5B%22%2308090d%22%2C%22%23262b3a%22%2C%22%232d7fca%22%5D" data-seed="223" width="382" height="382"></canvas>
+        <div class="card-badges"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-creator">Void.art</div>
+        <div class="card-name">Abstract Void #22</div>
+        <div class="splits-bar"><div class="split-seg" style="width:95%;background:#2d7fca;"></div><div class="split-seg" style="width:5%;background:#4a4e65;"></div></div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Price</div><span class="meta-value gold">3.5 Ⱥ</span></div>
+          <div class="meta-item"><div class="meta-label">Royalty</div><div class="meta-value ">5%</div></div>
+          <div class="meta-item"><div class="meta-label">Transfers</div><div class="meta-value">28×</div></div>
+          <div class="meta-item"><div class="meta-label">Splits</div><div class="meta-value">2</div></div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="event.stopPropagation();buyNFT(223)">Buy</button>
+          
+          <button class="btn btn-ghost" onclick="event.stopPropagation();showDetailModal(allNFTs.find(n=&gt;n.id===223))">···</button>
+        </div>
+      </div>
+      
+    </div><div class="nft-card rwa">
+      <div class="card-art">
+        <canvas class="art-canvas" data-colors="%5B%22%23e07b1a%22%2C%22%23a07820%22%2C%22%23d4a843%22%5D" data-seed="224" width="382" height="382"></canvas>
+        <div class="card-badges"><span class="badge badge-rwa">⬡ RWA</span><span class="badge badge-pending">⏳ Pending Auth</span><span class="badge badge-decaying">⏱ Decay</span></div>
+      </div>
+      <div class="card-body">
+        <div class="card-creator">Heritage Auth.</div>
+        <div class="card-name">Signed Baseball '84 WS</div>
+        <div class="splits-bar"><div class="split-seg" style="width:60%;background:#d4a843;"></div><div class="split-seg" style="width:25%;background:#e07b1a;"></div><div class="split-seg" style="width:10%;background:#1fa86e;"></div><div class="split-seg" style="width:5%;background:#4a4e65;"></div></div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Price</div><span class="meta-value gold">850 Ⱥ</span></div>
+          <div class="meta-item"><div class="meta-label">Royalty</div><div class="meta-value ">10%</div></div>
+          <div class="meta-item"><div class="meta-label">Transfers</div><div class="meta-value">4×</div></div>
+          <div class="meta-item"><div class="meta-label">Splits</div><div class="meta-value">4</div></div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="event.stopPropagation();buyNFT(224)" disabled="">Buy</button>
+          <button class="btn btn-violet" onclick="event.stopPropagation();buyOutRoyalty(224)" style="font-size:0.7rem;">⊞ Buy-Out</button>
+          <button class="btn btn-ghost" onclick="event.stopPropagation();showDetailModal(allNFTs.find(n=&gt;n.id===224))">···</button>
+        </div>
+      </div>
+      
+    </div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     PAGE: MINT
+════════════════════════════════════════════════ -->
+<div class="page" id="page-mint">
+  <div class="container section">
+    <div class="section-header">
+      <h2 class="section-title">Create &amp; Mint</h2>
+      <span class="section-sub">ARC-69 COMPLIANT</span>
+    </div>
+
+    <div class="inner-tabs">
+      <button class="inner-tab active" onclick="showMintTab(&#39;single&#39;)">Single NFT</button>
+      <button class="inner-tab" onclick="showMintTab(&#39;batch&#39;)">Batch Mint</button>
+      <button class="inner-tab" onclick="showMintTab(&#39;collab&#39;)">Collaboration</button>
+    </div>
+
+    <!-- Single Mint -->
+    <div id="mint-single">
+      <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:2.5rem;">
+        <div>
+          <div class="panel">
+            <div class="panel-header"><div class="icon">🎨</div> NFT Details</div>
+            <div class="form-grid">
+              <div class="form-row">
+                <div class="field">
+                  <label>NFT Name</label>
+                  <input type="text" id="m-name" placeholder="e.g. Dreamscape #001" oninput="updateMintPreview()">
+                </div>
+                <div class="field">
+                  <label>Unit Symbol</label>
+                  <input type="text" id="m-unit" placeholder="e.g. DREAM" maxlength="8" oninput="updateMintPreview()">
+                </div>
+              </div>
+              <div class="field">
+                <label>ARC-69 Metadata JSON</label>
+                <textarea id="m-metadata" placeholder="{&quot;standard&quot;:&quot;arc69&quot;,&quot;description&quot;:&quot;&quot;,&quot;mime_type&quot;:&quot;image/png&quot;,&quot;properties&quot;:{}}"></textarea>
+                <span class="field-hint">Full ARC-69 standard metadata for Algorand explorer compatibility.</span>
+              </div>
+              <div class="field">
+                <label>Metadata Hash (SHA-256)</label>
+                <input type="text" id="m-hash" placeholder="0x... (hash of full metadata file)">
+              </div>
+              <div class="form-row">
+                <div class="field">
+                  <label>List Price (Ⱥ)</label>
+                  <input type="number" id="m-price" placeholder="10" min="0.1" step="0.1" oninput="updateMintPreview()">
+                </div>
+                <div class="field">
+                  <label>Royalty % (max 20%)</label>
+                  <input type="range" id="m-royalty" min="0" max="20" value="10" step="0.5" oninput="updateMintPreview()" style="padding:0;background:none;border:none;cursor:pointer;height:auto;margin-top:10px;">
+                  <span style="font-family:&#39;Syne Mono&#39;,monospace;font-size:0.8rem;color:var(--gold)" id="m-royalty-val">10%</span>
+                </div>
+              </div>
+
+              <!-- Time-Decay Section -->
+              <div style="background:var(--bg2);border:1px solid var(--line);border-radius:4px;padding:1.2rem;">
+                <div style="font-size:0.78rem;font-weight:700;color:var(--text1);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+                  ⏱ Time-Decaying Royalties <span style="font-size:0.65rem;background:rgba(212,168,67,0.1);border:1px solid var(--gold3);color:var(--gold);padding:2px 7px;border-radius:10px;">OPTIONAL</span>
+                </div>
+                <div class="form-row">
+                  <div class="field">
+                    <label>Decay After (rounds)</label>
+                    <input type="number" id="m-decay" placeholder="0 = no decay" min="0" oninput="updateMintPreview()">
+                    <span class="field-hint">~4s per round. 180 days ≈ 3,888,000 rounds</span>
+                  </div>
+                  <div class="field">
+                    <label>Floor Royalty % after decay</label>
+                    <input type="number" id="m-floor" placeholder="5" min="0" max="20" step="0.5" oninput="updateMintPreview()">
+                  </div>
+                </div>
+                <div class="decay-indicator" id="decay-indicator">
+                  <span style="font-size:0.72rem;color:var(--text2);font-weight:600;flex-shrink:0;">Royalty over time</span>
+                  <div class="decay-track"><div class="decay-fill" id="decay-fill" style="width:100%;"></div></div>
+                  <div class="decay-info" id="decay-info">10% → no decay</div>
+                </div>
+              </div>
+
+              <!-- Buy-Out -->
+              <div class="field">
+                <label>Royalty Buy-Out Price (Ⱥ) <span style="color:var(--text3);font-size:0.65rem;">0 = disabled</span></label>
+                <input type="number" id="m-buyout" placeholder="0" min="0" oninput="updateMintPreview()">
+                <span class="field-hint">One-time fee a buyer can pay to permanently remove royalties from this NFT.</span>
+              </div>
+
+              <button class="btn btn-primary" style="font-size:0.9rem;padding:12px;" onclick="mintSingleNFT()">
+                ⬡ Mint NFT on Algorand
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Preview -->
+        <div>
+          <div class="panel">
+            <div class="panel-header"><div class="icon">👁</div> Live Preview</div>
+            <div style="background:var(--bg2);border-radius:4px;overflow:hidden;margin-bottom:1.2rem;aspect-ratio:1;">
+              <canvas id="preview-canvas" class="art-canvas" width="300" height="300"></canvas>
+            </div>
+            <div style="margin-bottom:1rem;">
+              <div style="font-family:&#39;Instrument Serif&#39;,serif;font-size:1.4rem;letter-spacing:-0.3px;" id="prev-name">NFT Name</div>
+              <div style="font-family:&#39;Syne Mono&#39;,monospace;font-size:0.7rem;color:var(--text2);margin-top:4px;" id="prev-unit">UNIT</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;margin-bottom:1.2rem;">
+              <div class="meta-item"><div class="meta-label">List Price</div><div class="meta-value gold" id="prev-price">—</div></div>
+              <div class="meta-item"><div class="meta-label">Royalty</div><div class="meta-value" id="prev-royalty">10%</div></div>
+              <div class="meta-item"><div class="meta-label">Floor Royalty</div><div class="meta-value" id="prev-floor">No decay</div></div>
+              <div class="meta-item"><div class="meta-label">Buy-Out Price</div><div class="meta-value" id="prev-buyout">Disabled</div></div>
+            </div>
+            <div style="font-size:0.72rem;font-weight:700;color:var(--text2);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px;">Estimated Split on Sale</div>
+            <div class="split-viz" id="prev-split-viz">
+    <div class="split-row"><div class="split-label">Creator</div><div class="split-track"><div class="split-fill" style="width:10%;background:var(--gold);"></div></div><div class="split-pct">10%</div></div>
+    <div class="split-row"><div class="split-label">Muse Fee</div><div class="split-track"><div class="split-fill" style="width:2.5%;background:var(--violet);"></div></div><div class="split-pct">2.5%</div></div>
+    <div class="split-row"><div class="split-label">Seller</div><div class="split-track"><div class="split-fill" style="width:87.5%;background:var(--sapphire);"></div></div><div class="split-pct">87.5%</div></div>
+  </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Batch Mint -->
+    <div id="mint-batch" style="display:none;">
+      <div class="panel">
+        <div class="panel-header"><div class="icon">📦</div> Batch Mint Queue</div>
+        <p style="font-size:0.82rem;color:var(--text1);margin-bottom:1.5rem;">Add multiple NFTs to mint in a single transaction sequence. Reduces network fees and manual effort for large collections.</p>
+        <div id="batch-list"></div>
+        <div style="background:var(--bg2);border:1px dashed var(--line);border-radius:4px;padding:1.2rem;margin-bottom:1.2rem;">
+          <div class="form-row-3">
+            <div class="field">
+              <label>Name</label>
+              <input type="text" id="b-name" placeholder="Collection #001">
+            </div>
+            <div class="field">
+              <label>Price (Ⱥ)</label>
+              <input type="number" id="b-price" placeholder="10" min="0.1">
+            </div>
+            <div class="field">
+              <label>Royalty %</label>
+              <input type="number" id="b-royalty" placeholder="10" min="0" max="20">
+            </div>
+          </div>
+          <button class="btn btn-outline" style="margin-top:1rem;" onclick="addBatchItem()">+ Add to Queue</button>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:0.8rem;color:var(--text2);">Queue: <span id="batch-count" style="color:var(--gold);font-weight:700;font-family:&#39;Syne Mono&#39;,monospace;">0 items</span></div>
+          <button class="btn btn-primary" onclick="executeBatchMint()">⬡ Execute Batch Mint</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Collaboration -->
+    <div id="mint-collab" style="display:none;">
+      <div class="panel">
+        <div class="panel-header"><div class="icon">🤝</div> Collaboration &amp; Co-Creator Setup</div>
+        <p style="font-size:0.82rem;color:var(--text1);margin-bottom:1.5rem;">
+          Register up to 4 co-creators with role labels and royalty shares. Each co-creator must <strong>call accept_collaboration()</strong> on-chain to formally consent to their role — preventing unauthorized registrations.
+        </p>
+        <div class="form-row" style="margin-bottom:1.5rem;">
+          <div class="field">
+            <label>NFT Name</label>
+            <input type="text" id="co-name" placeholder="Collaborative Piece">
+          </div>
+          <div class="field">
+            <label>Total Royalty %</label>
+            <input type="number" id="co-royalty" placeholder="10" min="0" max="20" oninput="updateCollabSplits()">
+          </div>
+        </div>
+        <div class="role-slots" id="collab-slots">
+    <div class="role-slot">
+      <div class="role-icon athlete">🏆</div>
+      <div>
+        <div class="role-name">Athlete / Primary</div>
+        <input type="text" placeholder="ALGO address" id="co-addr-0" style="margin-top:6px;background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:6px 10px;color:var(--text0);font-family:&#39;Syne Mono&#39;,monospace;font-size:0.72rem;width:100%;" oninput="updateCollabSplits()">
+      </div>
+      <div>
+        <div class="meta-label" style="margin-bottom:4px;">Share %</div>
+        <input type="number" placeholder="25" min="0" max="100" id="co-share-0" style="width:70px;background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:6px 8px;color:var(--gold);font-family:&#39;Syne Mono&#39;,monospace;font-size:0.82rem;" oninput="updateCollabSplits()">
+      </div>
+      <div class="role-status status-pending" id="co-status-0">PENDING</div>
+    </div>
+  
+    <div class="role-slot">
+      <div class="role-icon league">🏛</div>
+      <div>
+        <div class="role-name">Team / League</div>
+        <input type="text" placeholder="ALGO address" id="co-addr-1" style="margin-top:6px;background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:6px 10px;color:var(--text0);font-family:&#39;Syne Mono&#39;,monospace;font-size:0.72rem;width:100%;" oninput="updateCollabSplits()">
+      </div>
+      <div>
+        <div class="meta-label" style="margin-bottom:4px;">Share %</div>
+        <input type="number" placeholder="25" min="0" max="100" id="co-share-1" style="width:70px;background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:6px 8px;color:var(--gold);font-family:&#39;Syne Mono&#39;,monospace;font-size:0.82rem;" oninput="updateCollabSplits()">
+      </div>
+      <div class="role-status status-pending" id="co-status-1">PENDING</div>
+    </div>
+  
+    <div class="role-slot">
+      <div class="role-icon charity">💚</div>
+      <div>
+        <div class="role-name">Charity</div>
+        <input type="text" placeholder="ALGO address" id="co-addr-2" style="margin-top:6px;background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:6px 10px;color:var(--text0);font-family:&#39;Syne Mono&#39;,monospace;font-size:0.72rem;width:100%;" oninput="updateCollabSplits()">
+      </div>
+      <div>
+        <div class="meta-label" style="margin-bottom:4px;">Share %</div>
+        <input type="number" placeholder="25" min="0" max="100" id="co-share-2" style="width:70px;background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:6px 8px;color:var(--gold);font-family:&#39;Syne Mono&#39;,monospace;font-size:0.82rem;" oninput="updateCollabSplits()">
+      </div>
+      <div class="role-status status-pending" id="co-status-2">PENDING</div>
+    </div>
+  
+    <div class="role-slot">
+      <div class="role-icon media">📸</div>
+      <div>
+        <div class="role-name">Photographer / Media</div>
+        <input type="text" placeholder="ALGO address" id="co-addr-3" style="margin-top:6px;background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:6px 10px;color:var(--text0);font-family:&#39;Syne Mono&#39;,monospace;font-size:0.72rem;width:100%;" oninput="updateCollabSplits()">
+      </div>
+      <div>
+        <div class="meta-label" style="margin-bottom:4px;">Share %</div>
+        <input type="number" placeholder="25" min="0" max="100" id="co-share-3" style="width:70px;background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:6px 8px;color:var(--gold);font-family:&#39;Syne Mono&#39;,monospace;font-size:0.82rem;" oninput="updateCollabSplits()">
+      </div>
+      <div class="role-status status-pending" id="co-status-3">PENDING</div>
+    </div>
+  </div>
+        <div style="margin-top:1.5rem;padding:1rem;background:var(--bg2);border-radius:4px;">
+          <div style="font-size:0.72rem;font-weight:700;color:var(--text2);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Total Share Allocation</div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div class="split-track" style="flex:1;"><div class="split-fill" id="collab-total-bar" style="width:0%;background:var(--gold);"></div></div>
+            <div style="font-family:&#39;Syne Mono&#39;,monospace;font-size:0.82rem;" id="collab-total-pct">0 / 100%</div>
+          </div>
+        </div>
+        <div style="margin-top:1.5rem;display:flex;gap:10px;">
+          <button class="btn btn-primary" onclick="mintCollab()">⬡ Mint with Co-Creators</button>
+          <button class="btn btn-ghost" onclick="simulateAcceptance()">▶ Simulate Co-Creator Acceptance</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     PAGE: RWA
+════════════════════════════════════════════════ -->
+<div class="page" id="page-rwa">
+  <div class="container section">
+    <div class="section-header">
+      <h2 class="section-title">Real World Assets</h2>
+      <span class="section-sub">PHYSICAL TETHERING</span>
+    </div>
+    <p style="font-size:0.9rem;color:var(--text1);max-width:680px;margin-bottom:2.5rem;line-height:1.7;">
+      Tokenize physical items — athlete memorabilia, signed collectibles, artwork, or luxury goods. Each RWA is linked to a physical item via a cryptographic hash of its certificate of authenticity. Listings remain inactive until a certified authenticator validates the item on-chain.
+    </p>
+
+    <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:2.5rem;">
+      <!-- Form -->
+      <div>
+        <div class="panel">
+          <div class="panel-header"><div class="icon">⬡</div> Mint RWA Token</div>
+          <div class="form-grid">
+            <div class="form-row">
+              <div class="field">
+                <label>Item Name</label>
+                <input type="text" id="r-name" placeholder="LeBron Game-Worn Jersey #23">
+              </div>
+              <div class="field">
+                <label>Unit Symbol</label>
+                <input type="text" id="r-unit" placeholder="LBGRWJ">
+              </div>
+            </div>
+            <div class="field">
+              <label>ARC-69 Metadata JSON</label>
+              <textarea id="r-metadata" placeholder="{&quot;standard&quot;:&quot;arc69&quot;,&quot;description&quot;:&quot;Game-worn jersey from 2024 NBA Finals Game 7&quot;,&quot;mime_type&quot;:&quot;image/jpeg&quot;,&quot;properties&quot;:{&quot;athlete&quot;:&quot;LeBron James&quot;,&quot;event&quot;:&quot;NBA Finals 2024&quot;,&quot;item_type&quot;:&quot;jersey&quot;,&quot;size&quot;:&quot;XL&quot;}}"></textarea>
+            </div>
+            <div class="field">
+              <label>Physical Asset Hash (SHA-256 of CoA / NFC / Photo)</label>
+              <input type="text" id="r-phash" placeholder="sha256:abcdef1234... (hash of certificate of authenticity)">
+              <span class="field-hint">This irreversibly links the token to the specific physical item's documentation.</span>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label>Custodian Address (Vault)</label>
+                <input type="text" id="r-custodian" placeholder="ALGO address of vault/custodian">
+              </div>
+              <div class="field">
+                <label>Authenticator Address</label>
+                <input type="text" id="r-auth" placeholder="ALGO address of authenticator">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label>List Price (Ⱥ)</label>
+                <input type="number" id="r-price" placeholder="1000" min="1">
+              </div>
+              <div class="field">
+                <label>Royalty % (max 20%)</label>
+                <input type="number" id="r-royalty" placeholder="10" min="0" max="20">
+              </div>
+            </div>
+            <div class="field">
+              <label>Royalty Buy-Out Price (Ⱥ) <span style="color:var(--text3)">0 = disabled</span></label>
+              <input type="number" id="r-buyout" placeholder="0">
+            </div>
+
+            <!-- Multi-layer royalty splits -->
+            <div style="background:var(--bg2);border:1px solid var(--line);border-radius:4px;padding:1.2rem;">
+              <div style="font-size:0.78rem;font-weight:700;color:var(--text1);margin-bottom:1rem;">
+                🏆 Multi-Layer Royalty Splits (NBA Player Model)
+              </div>
+              <div id="rwa-role-slots">
+    <div style="display:grid;grid-template-columns:32px 1fr 140px 80px;gap:8px;align-items:center;margin-bottom:10px;">
+      <div class="role-icon athlete" style="width:28px;height:28px;font-size:0.8rem;">🏆</div>
+      <input type="text" placeholder="Athlete / Primary address" id="r-co-addr-0" style="background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:7px 10px;color:var(--text0);font-family:&#39;Syne Mono&#39;,monospace;font-size:0.72rem;">
+      <input type="text" placeholder="Role (e.g. Athlete)" id="r-co-role-0" value="Athlete / Primary" style="background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:7px 10px;color:var(--text0);font-size:0.72rem;font-family:&#39;Syne&#39;,sans-serif;">
+      <input type="number" placeholder="%" id="r-co-share-0" min="0" max="100" style="background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:7px 8px;color:var(--gold);font-family:&#39;Syne Mono&#39;,monospace;font-size:0.82rem;width:100%;">
+    </div>
+  
+    <div style="display:grid;grid-template-columns:32px 1fr 140px 80px;gap:8px;align-items:center;margin-bottom:10px;">
+      <div class="role-icon league" style="width:28px;height:28px;font-size:0.8rem;">🏛</div>
+      <input type="text" placeholder="Team / League address" id="r-co-addr-1" style="background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:7px 10px;color:var(--text0);font-family:&#39;Syne Mono&#39;,monospace;font-size:0.72rem;">
+      <input type="text" placeholder="Role (e.g. Athlete)" id="r-co-role-1" value="Team / League" style="background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:7px 10px;color:var(--text0);font-size:0.72rem;font-family:&#39;Syne&#39;,sans-serif;">
+      <input type="number" placeholder="%" id="r-co-share-1" min="0" max="100" style="background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:7px 8px;color:var(--gold);font-family:&#39;Syne Mono&#39;,monospace;font-size:0.82rem;width:100%;">
+    </div>
+  
+    <div style="display:grid;grid-template-columns:32px 1fr 140px 80px;gap:8px;align-items:center;margin-bottom:10px;">
+      <div class="role-icon charity" style="width:28px;height:28px;font-size:0.8rem;">💚</div>
+      <input type="text" placeholder="Charity address" id="r-co-addr-2" style="background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:7px 10px;color:var(--text0);font-family:&#39;Syne Mono&#39;,monospace;font-size:0.72rem;">
+      <input type="text" placeholder="Role (e.g. Athlete)" id="r-co-role-2" value="Charity" style="background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:7px 10px;color:var(--text0);font-size:0.72rem;font-family:&#39;Syne&#39;,sans-serif;">
+      <input type="number" placeholder="%" id="r-co-share-2" min="0" max="100" style="background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:7px 8px;color:var(--gold);font-family:&#39;Syne Mono&#39;,monospace;font-size:0.82rem;width:100%;">
+    </div>
+  
+    <div style="display:grid;grid-template-columns:32px 1fr 140px 80px;gap:8px;align-items:center;margin-bottom:10px;">
+      <div class="role-icon media" style="width:28px;height:28px;font-size:0.8rem;">📸</div>
+      <input type="text" placeholder="Photographer / Media address" id="r-co-addr-3" style="background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:7px 10px;color:var(--text0);font-family:&#39;Syne Mono&#39;,monospace;font-size:0.72rem;">
+      <input type="text" placeholder="Role (e.g. Athlete)" id="r-co-role-3" value="Photographer / Media" style="background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:7px 10px;color:var(--text0);font-size:0.72rem;font-family:&#39;Syne&#39;,sans-serif;">
+      <input type="number" placeholder="%" id="r-co-share-3" min="0" max="100" style="background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:7px 8px;color:var(--gold);font-family:&#39;Syne Mono&#39;,monospace;font-size:0.82rem;width:100%;">
+    </div>
+  </div>
+              <div style="font-size:0.7rem;color:var(--text3);margin-top:8px;">
+                Remaining royalty % goes to primary creator/athlete (slot 1). Slots 2–4 are optional.
+              </div>
+            </div>
+
+            <button class="btn btn-green" style="font-size:0.9rem;padding:12px;" onclick="mintRWA()">
+              ⬡ Mint RWA Token (Pending Authentication)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RWA Lifecycle -->
+      <div>
+        <div class="panel" style="margin-bottom:1.5rem;">
+          <div class="panel-header"><div class="icon">🔐</div> Authentication &amp; Redemption</div>
+          <p style="font-size:0.78rem;color:var(--text1);margin-bottom:1.5rem;">
+            Track a live RWA through its full lifecycle: from minting to authentication, sale, and physical redemption.
+          </p>
+
+          <div class="field" style="margin-bottom:1rem;">
+            <label>Contract / NFT ID to Check</label>
+            <input type="text" id="rwa-check-id" placeholder="App ID or NFT ID">
+          </div>
+
+          <!-- State Machine Visualization -->
+          <div class="physical-state" id="rwa-state-viz">
+            <div style="font-size:0.72rem;font-weight:700;color:var(--text2);letter-spacing:1px;margin-bottom:1rem;text-transform:uppercase;">Physical Item Lifecycle</div>
+            <div class="physical-timeline">
+              <div class="timeline-step">
+                <div class="timeline-dot done" id="tl-minted">✓</div>
+                <div class="timeline-label">Minted</div>
+              </div>
+              <div class="timeline-step">
+                <div class="timeline-dot current" id="tl-auth">⏳</div>
+                <div class="timeline-label">Authenticated</div>
+              </div>
+              <div class="timeline-step">
+                <div class="timeline-dot" id="tl-listed">◯</div>
+                <div class="timeline-label">Listed</div>
+              </div>
+              <div class="timeline-step">
+                <div class="timeline-dot" id="tl-sold">◯</div>
+                <div class="timeline-label">Sold</div>
+              </div>
+              <div class="timeline-step">
+                <div class="timeline-dot" id="tl-redeemed">◯</div>
+                <div class="timeline-label">Redeemed</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:grid;gap:8px;margin-top:1.2rem;">
+            <button class="btn btn-green" onclick="simulateAuthenticate()">🔐 Authenticate (as Authenticator)</button>
+            <button class="btn btn-amber" onclick="simulateRedeem()">📦 Redeem Physical Item (as Custodian)</button>
+            <button class="btn btn-violet" onclick="simulateStartAuction()">⧉ Start Auction for this RWA</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header"><div class="icon">⧉</div> Live Auction</div>
+          <div class="bid-section" id="rwa-auction">
+            <h3>⧉ Active Auction</h3>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+              <div class="meta-item"><div class="meta-label">Ends In</div><div class="meta-value gold" id="auction-timer">—</div></div>
+              <div class="meta-item"><div class="meta-label">Highest Bid</div><div class="meta-value" id="auction-high">—</div></div>
+            </div>
+            <div class="bid-history" id="bid-history-list"></div>
+            <div style="display:flex;gap:8px;margin-top:1rem;">
+              <div class="field" style="flex:1;margin:0;">
+                <input type="number" id="bid-amount" placeholder="Enter bid in Ⱥ" style="margin:0;">
+              </div>
+              <button class="btn btn-amber" onclick="placeBid()">Place Bid</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     PAGE: ANALYTICS
+════════════════════════════════════════════════ -->
+<div class="page" id="page-analytics">
+  <div class="container section">
+    <div class="section-header">
+      <h2 class="section-title">Analytics Dashboard</h2>
+      <span class="section-sub">REAL-TIME STATS</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;">
+      <div class="chart-wrap">
+        <div class="chart-title">Volume Over Time (Ⱥ)</div>
+        <canvas id="chart-volume" height="200"></canvas>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">Sales by Category</div>
+        <canvas id="chart-category" height="200"></canvas>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;">
+      <div class="chart-wrap">
+        <div class="chart-title">Royalty Decay Simulation</div>
+        <canvas id="chart-decay" height="200"></canvas>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">Top Artists by Volume</div>
+        <canvas id="chart-artists" height="200"></canvas>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header"><div class="icon">⚙</div> Royalty Decay Calculator</div>
+      <p style="font-size:0.8rem;color:var(--text1);margin-bottom:1.2rem;">
+        Simulate how time-decaying royalties will behave for any NFT configuration.
+      </p>
+      <div class="form-row-3">
+        <div class="field">
+          <label>Initial Royalty %</label>
+          <input type="number" id="calc-init" value="10" min="0" max="20" oninput="updateDecayCalc()">
+        </div>
+        <div class="field">
+          <label>Floor Royalty %</label>
+          <input type="number" id="calc-floor" value="5" min="0" max="20" oninput="updateDecayCalc()">
+        </div>
+        <div class="field">
+          <label>Decay After (months)</label>
+          <input type="number" id="calc-months" value="12" min="1" oninput="updateDecayCalc()">
+        </div>
+      </div>
+      <div style="margin-top:1rem;font-family:&#39;Syne Mono&#39;,monospace;font-size:0.78rem;color:var(--text1);background:var(--bg2);padding:12px 16px;border-radius:4px;" id="decay-calc-output">
+        — Enter values above to simulate —
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     PAGE: PROFILE
+════════════════════════════════════════════════ -->
+<div class="page" id="page-profile">
+  <div class="container section">
+    <div class="creator-profile">
+      <canvas id="avatar-canvas" class="creator-avatar" width="80" height="80"></canvas>
+      <div class="creator-info">
+        <div class="creator-name">
+          Creative Studio 808
+          <span class="verified-badge">✓ VERIFIED</span>
+        </div>
+        <div class="creator-addr" id="profile-addr">Not connected — connect wallet to view profile</div>
+        <div class="creator-stats">
+          <div class="creator-stat">
+            <div class="creator-stat-val">34</div>
+            <div class="creator-stat-lbl">NFTs Created</div>
+          </div>
+          <div class="creator-stat">
+            <div class="creator-stat-val">892 Ⱥ</div>
+            <div class="creator-stat-lbl">Total Volume</div>
+          </div>
+          <div class="creator-stat">
+            <div class="creator-stat-val">67 Ⱥ</div>
+            <div class="creator-stat-lbl">Royalties Earned</div>
+          </div>
+          <div class="creator-stat">
+            <div class="creator-stat-val">4</div>
+            <div class="creator-stat-lbl">RWA Listed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+      <div class="panel">
+        <div class="panel-header"><div class="icon">🔑</div> Pending Collaboration Invites</div>
+        <p style="font-size:0.78rem;color:var(--text1);margin-bottom:1.2rem;">
+          Co-creator invitations awaiting your on-chain acceptance. Click Accept to sign a transaction confirming your role and royalty share.
+        </p>
+        <div id="collab-invites"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-header"><div class="icon">⊞</div> Royalty Buy-Out Offers</div>
+        <p style="font-size:0.78rem;color:var(--text1);margin-bottom:1.2rem;">
+          Buyers can pay a one-time premium to permanently remove royalties from specific NFTs. Review and respond to offers here.
+        </p>
+        <div id="buyout-offers"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     PAGE: TESTS
+════════════════════════════════════════════════ -->
+<div class="page" id="page-tests">
+  <div class="container section">
+    <div class="section-header">
+      <h2 class="section-title">Database Integration Tests</h2>
+      <span class="section-sub">INDEXED DB · ALL OPERATIONS</span>
+    </div>
+    <div style="display:flex;gap:12px;margin-bottom:2rem;flex-wrap:wrap;align-items:center;">
+      <button class="btn btn-primary" onclick="runAllTests()" id="run-tests-btn" style="padding:10px 24px;">▶ Run All Tests</button>
+      <button class="btn btn-ghost" onclick="clearDatabase()" style="padding:10px 24px;">🗑 Reset Database</button>
+      <span id="test-summary" style="display:flex;align-items:center;font-family:&#39;Syne Mono&#39;,monospace;font-size:0.82rem;color:var(--text2);margin-left:auto;"></span>
+    </div>
+    <div class="panel" style="margin-bottom:1rem;padding:1rem 1.5rem;">
+      <div style="font-size:0.72rem;font-weight:700;color:var(--text2);letter-spacing:1px;text-transform:uppercase;margin-bottom:0.5rem;">Database Status</div>
+      <div id="db-status" style="font-family:&#39;Syne Mono&#39;,monospace;font-size:0.8rem;color:var(--emerald);">✓ IndexedDB connected — 6 NFTs loaded</div>
+    </div>
+    <div id="test-results" style="display:flex;flex-direction:column;gap:8px;"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     WALLET MODAL
+════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="wallet-modal" style="display:none;" onclick="closeWalletModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">Connect Wallet</div>
+      <button class="modal-close" onclick="closeWalletModal()">✕</button>
+    </div>
+    <p style="font-size:0.82rem;color:var(--text1);margin-bottom:1.5rem;">
+      Connect your Algorand wallet to mint, buy, bid, and manage your NFTs. Multi-wallet support via WalletConnect and native adapters.
+    </p>
+    <div class="wallet-grid">
+      <div class="wallet-option" onclick="connectWallet(&#39;pera&#39;)">
+        <div class="wallet-logo">🟢</div>
+        <div class="wallet-name">Pera Wallet</div>
+        <div class="wallet-desc">Official Algorand mobile wallet</div>
+      </div>
+      <div class="wallet-option" onclick="connectWallet(&#39;defly&#39;)">
+        <div class="wallet-logo">🔵</div>
+        <div class="wallet-name">Defly</div>
+        <div class="wallet-desc">DeFi-focused Algorand wallet</div>
+      </div>
+      <div class="wallet-option" onclick="connectWallet(&#39;kibisis&#39;)">
+        <div class="wallet-logo">⚡</div>
+        <div class="wallet-name">Kibisis</div>
+        <div class="wallet-desc">Browser extension wallet</div>
+      </div>
+      <div class="wallet-option" onclick="connectWallet(&#39;walletconnect&#39;)">
+        <div class="wallet-logo">🔗</div>
+        <div class="wallet-name">WalletConnect</div>
+        <div class="wallet-desc">Connect any compatible wallet</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="detail-modal" style="display:none;" onclick="closeDetailModal(event)">
+  <div class="modal" onclick="event.stopPropagation()" style="max-width:700px;">
+    <div class="modal-header">
+      <div class="modal-title" id="dm-title">NFT Details</div>
+      <button class="modal-close" onclick="closeDetailModal()">✕</button>
+    </div>
+    <div id="dm-body"></div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toasts"></div>
+
+<!-- ════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════ -->
+<script>
+// ══════════════════════════════════════════════════════════════
+//  MUSE DB — IndexedDB Wrapper (Persistent Client-Side Database)
+// ══════════════════════════════════════════════════════════════
+
+const MUSE_DB_NAME = 'MuseMarketplaceDB';
+const MUSE_DB_VERSION = 2;
+const NFT_STORE = 'nfts';
+const TX_STORE = 'transactions';
+const STATS_STORE = 'stats';
+
+class MuseDB {
+  constructor() {
+    this.db = null;
+    this.ready = this._init();
+  }
+
+  _init() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open(MUSE_DB_NAME, MUSE_DB_VERSION);
+
+      req.onupgradeneeded = (e) => {
+        const db = e.target.result;
+        // NFT object store
+        if (!db.objectStoreNames.contains(NFT_STORE)) {
+          const nftStore = db.createObjectStore(NFT_STORE, { keyPath: 'id', autoIncrement: true });
+          nftStore.createIndex('type', 'type', { unique: false });
+          nftStore.createIndex('creator', 'creator', { unique: false });
+          nftStore.createIndex('isListed', 'isListed', { unique: false });
+        }
+        // Transaction log store
+        if (!db.objectStoreNames.contains(TX_STORE)) {
+          const txStore = db.createObjectStore(TX_STORE, { keyPath: 'txId', autoIncrement: true });
+          txStore.createIndex('nftId', 'nftId', { unique: false });
+          txStore.createIndex('type', 'type', { unique: false });
+        }
+        // Stats store (single record with key 'global')
+        if (!db.objectStoreNames.contains(STATS_STORE)) {
+          db.createObjectStore(STATS_STORE, { keyPath: 'key' });
+        }
+      };
+
+      req.onsuccess = (e) => {
+        this.db = e.target.result;
+        resolve(this.db);
+      };
+      req.onerror = (e) => reject(e.target.error);
+    });
+  }
+
+  // ── Generic IDB helpers ──
+  _tx(stores, mode = 'readonly') {
+    return this.db.transaction(stores, mode);
+  }
+
+  _get(store, key) {
+    return new Promise((resolve, reject) => {
+      const req = this._tx(store).objectStore(store).get(key);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  _getAll(store) {
+    return new Promise((resolve, reject) => {
+      const req = this._tx(store).objectStore(store).getAll();
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  _put(store, obj) {
+    return new Promise((resolve, reject) => {
+      const tx = this._tx(store, 'readwrite');
+      const req = tx.objectStore(store).put(obj);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  _delete(store, key) {
+    return new Promise((resolve, reject) => {
+      const tx = this._tx(store, 'readwrite');
+      const req = tx.objectStore(store).delete(key);
+      req.onsuccess = () => resolve(true);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  _clearStore(store) {
+    return new Promise((resolve, reject) => {
+      const tx = this._tx(store, 'readwrite');
+      const req = tx.objectStore(store).clear();
+      req.onsuccess = () => resolve(true);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  _addToStore(store, obj) {
+    return new Promise((resolve, reject) => {
+      const tx = this._tx(store, 'readwrite');
+      const req = tx.objectStore(store).add(obj);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  // ── NFT Operations (mirror smart contract ABI) ──
+
+  /**
+   * mint_nft — standard digital NFT with ARC-69, decay, optional buyout
+   */
+  async mintNFT({
+    name, unit, royaltyBps, listPrice, arc69Json, metaHash,
+    decayAfterRounds = 0, floorRoyaltyBps = 0, buyoutPrice = 0,
+    creator, colors = ['#d4a843','#2d7fca','#1fa86e'],
+    splits = []
+  }) {
+    if (royaltyBps > 2000) throw new Error('Royalty exceeds 20%');
+    if (listPrice <= 0) throw new Error('Price must be > 0');
+    if (floorRoyaltyBps > royaltyBps) throw new Error('Floor must be ≤ royalty');
+
+    const nft = {
+      name, unit, royaltyBps, listPrice, arc69Json, metaHash,
+      decayAfterRounds, floorRoyaltyBps, buyoutPrice,
+      creator: creator || walletAddress,
+      colors, splits,
+      type: 'digital',
+      isListed: true,
+      isPhysical: false,
+      isAuthenticated: false,
+      isRedeemed: false,
+      royaltiesWaived: false,
+      auction: false,
+      highBid: 0,
+      highBidder: '',
+      auctionEndTime: 0,
+      auctionMinBid: 0,
+      transfers: 0,
+      mintRound: Date.now(),
+      // co-creators
+      cocreator1: { addr: '', share: 0, role: '', accepted: false },
+      cocreator2: { addr: '', share: 0, role: '', accepted: false },
+      cocreator3: { addr: '', share: 0, role: '', accepted: false },
+      cocreator4: { addr: '', share: 0, role: '', accepted: false },
+      pendingCollabCount: 0,
+      createdAt: Date.now(),
+    };
+
+    const id = await this._addToStore(NFT_STORE, nft);
+    await this._logTx({ nftId: id, type: 'mint', from: nft.creator, amount: 0, note: `Minted "${name}" (ARC-69)` });
+    await this._updateStats({ mintedDelta: 1 });
+    return id;
+  }
+
+  /**
+   * mint_nft_rwa — physical asset digital twin
+   */
+  async mintNFTRWA({
+    name, unit, royaltyBps, listPrice, arc69Json, physicalHash,
+    custodian, authenticator, buyoutPrice = 0, creator, colors,
+    co1 = { addr: '', share: 0, role: '' },
+    co2 = { addr: '', share: 0, role: '' },
+    co3 = { addr: '', share: 0, role: '' },
+    co4 = { addr: '', share: 0, role: '' },
+    splits = []
+  }) {
+    if (royaltyBps > 2000) throw new Error('Royalty exceeds 20%');
+    if (listPrice <= 0) throw new Error('Price must be > 0');
+    const totalShares = co1.share + co2.share + co3.share + co4.share;
+    if (totalShares > 10000) throw new Error('Co-creator shares exceed 100%');
+
+    const pendingCount = [co1, co2, co3, co4].filter(c => c.addr).length;
+
+    const nft = {
+      name, unit, royaltyBps, listPrice, arc69Json, physicalHash,
+      custodian, authenticator, buyoutPrice,
+      creator: creator || walletAddress,
+      colors: colors || ['#1fa86e','#155c3d','#d4a843'],
+      splits,
+      type: 'rwa',
+      isListed: false, // not live until authenticated
+      isPhysical: true,
+      isAuthenticated: false,
+      isRedeemed: false,
+      royaltiesWaived: false,
+      redemptionMemo: '',
+      auction: false,
+      highBid: 0,
+      highBidder: '',
+      auctionEndTime: 0,
+      auctionMinBid: 0,
+      transfers: 0,
+      mintRound: Date.now(),
+      decayAfterRounds: 0,
+      floorRoyaltyBps: 0,
+      cocreator1: { ...co1, accepted: false },
+      cocreator2: { ...co2, accepted: false },
+      cocreator3: { ...co3, accepted: false },
+      cocreator4: { ...co4, accepted: false },
+      pendingCollabCount: pendingCount,
+      createdAt: Date.now(),
+    };
+
+    const id = await this._addToStore(NFT_STORE, nft);
+    await this._logTx({ nftId: id, type: 'mint_rwa', from: nft.creator, amount: 0, note: `Minted RWA "${name}" — pending authentication` });
+    await this._updateStats({ mintedDelta: 1 });
+    return id;
+  }
+
+  /**
+   * validate_physical_asset — authenticator activates the NFT
+   */
+  async validatePhysicalAsset(nftId, callerAddr) {
+    const nft = await this._get(NFT_STORE, nftId);
+    if (!nft) throw new Error('NFT not found');
+    if (!nft.isPhysical) throw new Error('Not a physical asset NFT');
+    if (callerAddr && nft.authenticator && callerAddr !== nft.authenticator)
+      throw new Error('Only the certified authenticator can validate');
+    if (nft.isAuthenticated) throw new Error('Already authenticated');
+
+    nft.isAuthenticated = true;
+    nft.isListed = true;
+    await this._put(NFT_STORE, nft);
+    await this._logTx({ nftId, type: 'authenticate', from: callerAddr || 'authenticator', amount: 0, note: 'validate_physical_asset() — NFT now LIVE' });
+    return true;
+  }
+
+  /**
+   * accept_collaboration — co-creator accepts role (slot 1-4)
+   */
+  async acceptCollaboration(nftId, slot, callerAddr) {
+    const nft = await this._get(NFT_STORE, nftId);
+    if (!nft) throw new Error('NFT not found');
+    const slotKey = `cocreator${slot}`;
+    const co = nft[slotKey];
+    if (!co || (co.addr && co.addr !== callerAddr)) throw new Error('Caller not in this slot');
+    if (co.accepted) throw new Error('Already accepted');
+
+    nft[slotKey].accepted = true;
+    nft.pendingCollabCount = Math.max(0, nft.pendingCollabCount - 1);
+    await this._put(NFT_STORE, nft);
+    await this._logTx({ nftId, type: 'accept_collab', from: callerAddr, amount: 0, note: `accept_collaboration() slot ${slot}` });
+    return slot;
+  }
+
+  /**
+   * start_auction — creator starts timed auction
+   */
+  async startAuction(nftId, durationMs, minBidAlgo) {
+    const nft = await this._get(NFT_STORE, nftId);
+    if (!nft) throw new Error('NFT not found');
+    if (nft.creator !== walletAddress && walletAddress) {}  // allow in prototype
+    if (durationMs <= 0) throw new Error('Duration must be > 0');
+    if (minBidAlgo <= 0) throw new Error('Min bid must be > 0');
+    if (nft.auction) throw new Error('Auction already active');
+    if (nft.isPhysical && !nft.isAuthenticated) throw new Error('Physical asset not yet authenticated');
+
+    nft.auction = true;
+    nft.auctionEndTime = Date.now() + durationMs;
+    nft.auctionMinBid = minBidAlgo;
+    nft.highBid = 0;
+    nft.highBidder = '';
+    nft.isListed = true;
+    await this._put(NFT_STORE, nft);
+    await this._logTx({ nftId, type: 'start_auction', from: walletAddress, amount: 0, note: `start_auction() — ends at ${new Date(nft.auctionEndTime).toISOString()}` });
+    await this._updateStats({ auctionsDelta: 1 });
+    return nft.auctionEndTime;
+  }
+
+  /**
+   * place_bid — bidder places bid with auto-refund tracking
+   */
+  async placeBid(nftId, bidAmount, bidderAddr) {
+    const nft = await this._get(NFT_STORE, nftId);
+    if (!nft) throw new Error('NFT not found');
+    if (!nft.auction) throw new Error('No active auction');
+    if (Date.now() >= nft.auctionEndTime) throw new Error('Auction has ended');
+    if (bidAmount < nft.auctionMinBid) throw new Error('Bid below minimum');
+    if (bidAmount <= nft.highBid) throw new Error('Bid must exceed current highest');
+
+    const prevBidder = nft.highBidder;
+    const prevBid = nft.highBid;
+
+    nft.highBidder = bidderAddr || walletAddress;
+    nft.highBid = bidAmount;
+    await this._put(NFT_STORE, nft);
+    await this._logTx({
+      nftId, type: 'place_bid', from: nft.highBidder, amount: bidAmount,
+      note: prevBidder ? `place_bid() — refunded ${prevBidder} ${prevBid} Ⱥ` : 'place_bid() — first bid'
+    });
+    return bidAmount;
+  }
+
+  /**
+   * settle_auction — finalize auction after end time
+   */
+  async settleAuction(nftId) {
+    const nft = await this._get(NFT_STORE, nftId);
+    if (!nft) throw new Error('NFT not found');
+    if (!nft.auction) throw new Error('No active auction');
+    if (Date.now() < nft.auctionEndTime) throw new Error('Auction not yet ended');
+
+    const price = nft.highBid;
+    const royaltyPool = Math.floor(price * nft.royaltyBps / 10000);
+    const marketAmt = Math.floor(price * 250 / 10000); // 2.5%
+    const sellerNet = price - royaltyPool - marketAmt;
+
+    if (nft.highBidder) {
+      nft.transfers++;
+      await this._updateStats({
+        volumeDelta: price,
+        royaltiesDelta: royaltyPool,
+        salesDelta: 1,
+        auctionsDelta: -1
+      });
+    }
+
+    nft.auction = false;
+    nft.auctionEndTime = 0;
+    nft.highBid = 0;
+    nft.highBidder = '';
+    nft.isListed = false;
+    await this._put(NFT_STORE, nft);
+    await this._logTx({
+      nftId, type: 'settle_auction', from: 'marketplace', amount: price,
+      note: `settle_auction() — seller net: ${sellerNet} μⱤ, royalty: ${royaltyPool} μⱤ`
+    });
+    return royaltyPool;
+  }
+
+  /**
+   * buy_nft — fixed-price purchase
+   */
+  async buyNFT(nftId, paymentAmount, buyerAddr) {
+    const nft = await this._get(NFT_STORE, nftId);
+    if (!nft) throw new Error('NFT not found');
+    if (!nft.isListed) throw new Error('NFT not listed');
+    if (nft.auction) throw new Error('Use auction settlement for auctions');
+    if (paymentAmount < nft.listPrice) throw new Error('Insufficient payment');
+    if (nft.isPhysical && !nft.isAuthenticated) throw new Error('Physical asset not authenticated');
+    if (nft.isPhysical && nft.isRedeemed) throw new Error('Physical item already redeemed');
+
+    const price = paymentAmount;
+    const effRoyalty = nft.royaltiesWaived ? 0 : nft.royaltyBps;
+    const royaltyPool = Math.floor(price * effRoyalty / 10000);
+    const marketAmt = Math.floor(price * 250 / 10000);
+
+    nft.isListed = false;
+    nft.transfers++;
+    await this._put(NFT_STORE, nft);
+    await this._logTx({
+      nftId, type: 'buy', from: buyerAddr || walletAddress, amount: price,
+      note: `buy_nft() — royalty: ${royaltyPool} μⱤ, marketplace: ${marketAmt} μⱤ`
+    });
+    await this._updateStats({ volumeDelta: price, royaltiesDelta: royaltyPool, salesDelta: 1 });
+    return royaltyPool;
+  }
+
+  /**
+   * buy_out_royalty — one-time royalty removal
+   */
+  async buyOutRoyalty(nftId, paymentAmount, buyerAddr) {
+    const nft = await this._get(NFT_STORE, nftId);
+    if (!nft) throw new Error('NFT not found');
+    if (nft.buyoutPrice <= 0) throw new Error('Royalty buy-out not available');
+    if (nft.royaltiesWaived) throw new Error('Royalties already waived');
+    if (paymentAmount < nft.buyoutPrice) throw new Error('Insufficient buy-out payment');
+
+    const marketCut = Math.floor(paymentAmount * 500 / 10000); // 5%
+    const creatorCut = paymentAmount - marketCut;
+
+    nft.royaltiesWaived = true;
+    nft.buyoutPrice = 0;
+    await this._put(NFT_STORE, nft);
+    await this._logTx({
+      nftId, type: 'buyout_royalty', from: buyerAddr || walletAddress, amount: paymentAmount,
+      note: `buy_out_royalty() — creator received ${creatorCut} μⱤ, marketplace: ${marketCut} μⱤ`
+    });
+    return true;
+  }
+
+  /**
+   * redeem_physical_asset — custodian records delivery
+   */
+  async redeemPhysicalAsset(nftId, trackingInfo, custodianAddr) {
+    const nft = await this._get(NFT_STORE, nftId);
+    if (!nft) throw new Error('NFT not found');
+    if (!nft.isPhysical) throw new Error('Not a physical asset');
+    if (!nft.isAuthenticated) throw new Error('Asset not authenticated');
+    if (nft.isRedeemed) throw new Error('Already redeemed');
+    if (custodianAddr && nft.custodian && custodianAddr !== nft.custodian)
+      throw new Error('Only the custodian can redeem');
+
+    nft.isRedeemed = true;
+    nft.redemptionMemo = trackingInfo;
+    nft.isListed = false;
+    await this._put(NFT_STORE, nft);
+    await this._logTx({
+      nftId, type: 'redeem', from: custodianAddr || 'custodian', amount: 0,
+      note: `redeem_physical_asset() — tracking: ${trackingInfo}`
+    });
+    return true;
+  }
+
+  /**
+   * update_royalty — creator adjusts royalty
+   */
+  async updateRoyalty(nftId, newRoyaltyBps) {
+    const nft = await this._get(NFT_STORE, nftId);
+    if (!nft) throw new Error('NFT not found');
+    if (newRoyaltyBps > 2000) throw new Error('Royalty exceeds 20%');
+    if (nft.royaltiesWaived) throw new Error('Royalties have been waived');
+
+    nft.royaltyBps = newRoyaltyBps;
+    await this._put(NFT_STORE, nft);
+    await this._logTx({ nftId, type: 'update_royalty', from: walletAddress, amount: 0, note: `update_royalty() → ${newRoyaltyBps} bps` });
+    return newRoyaltyBps;
+  }
+
+  /**
+   * list_nft — relist at new price
+   */
+  async listNFT(nftId, newPrice) {
+    const nft = await this._get(NFT_STORE, nftId);
+    if (!nft) throw new Error('NFT not found');
+    if (newPrice <= 0) throw new Error('Price must be > 0');
+    if (nft.isRedeemed) throw new Error('Redeemed physical assets cannot be re-listed');
+    if (nft.isPhysical && !nft.isAuthenticated) throw new Error('Not authenticated');
+
+    nft.listPrice = newPrice;
+    nft.isListed = true;
+    await this._put(NFT_STORE, nft);
+    await this._logTx({ nftId, type: 'list', from: walletAddress, amount: newPrice, note: `list_nft() at ${newPrice} Ⱥ` });
+    return newPrice;
+  }
+
+  // ── Transaction Log ──
+  async _logTx(txData) {
+    return this._addToStore(TX_STORE, { ...txData, timestamp: Date.now() });
+  }
+
+  async getTransactions(nftId) {
+    if (nftId !== undefined) {
+      return new Promise((resolve, reject) => {
+        const tx = this._tx(TX_STORE);
+        const idx = tx.objectStore(TX_STORE).index('nftId');
+        const req = idx.getAll(nftId);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+    return this._getAll(TX_STORE);
+  }
+
+  // ── Stats ──
+  async _updateStats({ mintedDelta = 0, volumeDelta = 0, royaltiesDelta = 0, salesDelta = 0, auctionsDelta = 0 } = {}) {
+    const existing = await this._get(STATS_STORE, 'global') || {
+      key: 'global', totalMinted: 0, totalVolume: 0, totalRoyalties: 0, totalSales: 0, liveAuctions: 0
+    };
+    existing.totalMinted += mintedDelta;
+    existing.totalVolume += volumeDelta;
+    existing.totalRoyalties += royaltiesDelta;
+    existing.totalSales += salesDelta;
+    existing.liveAuctions = Math.max(0, existing.liveAuctions + auctionsDelta);
+    await this._put(STATS_STORE, existing);
+    return existing;
+  }
+
+  async getStats() {
+    return await this._get(STATS_STORE, 'global') || {
+      key: 'global', totalMinted: 0, totalVolume: 0, totalRoyalties: 0, totalSales: 0, liveAuctions: 0
+    };
+  }
+
+  // ── Bulk ops ──
+  async getAllNFTs() { return this._getAll(NFT_STORE); }
+  async getNFT(id) { return this._get(NFT_STORE, id); }
+  async deleteNFT(id) { return this._delete(NFT_STORE, id); }
+
+  async clearAll() {
+    await this._clearStore(NFT_STORE);
+    await this._clearStore(TX_STORE);
+    await this._clearStore(STATS_STORE);
+  }
+
+  // ── Seed initial data (mirrors SAMPLE_NFTS) ──
+  async seedInitialData() {
+    const existing = await this.getAllNFTs();
+    if (existing.length > 0) return; // already seeded
+
+    const seeds = [
+      {
+        name: "Solstice Bloom #07", unit: "SLST7", royaltyBps: 1000, listPrice: 24,
+        arc69Json: '{"standard":"arc69","description":"Generative floral art"}', metaHash: 'abc123',
+        decayAfterRounds: 9331200, floorRoyaltyBps: 500, buyoutPrice: 500,
+        creator: "Studio Meridian", type: 'digital', isListed: true,
+        colors: ['#d4a843','#a07820','#2d7fca'], transfers: 3,
+        splits: [{label:'Creator',pct:40,color:'#d4a843'},{label:'Collab',pct:30,color:'#2d7fca'},{label:'Charity',pct:20,color:'#1fa86e'},{label:'Muse',pct:10,color:'#7c4dcc'}],
+        cocreator1: {addr:'COLLAB...X1',share:3000,role:'Collaborator',accepted:true},
+        cocreator2: {addr:'CHARITY...Y2',share:2000,role:'Charity',accepted:true},
+        cocreator3: {addr:'',share:0,role:'',accepted:false},
+        cocreator4: {addr:'',share:0,role:'',accepted:false},
+        pendingCollabCount: 0,
+      },
+      {
+        name: "Finals Game 7 Jersey", unit: "FG7J", royaltyBps: 1200, listPrice: 4200,
+        arc69Json: '{"standard":"arc69","description":"Authentic NBA Finals jersey"}', metaHash: 'def456',
+        decayAfterRounds: 0, floorRoyaltyBps: 800, buyoutPrice: 80000,
+        creator: "Sports Vault Auth.", type: 'rwa', isListed: true,
+        isPhysical: true, isAuthenticated: true, isRedeemed: false,
+        custodian: 'VAULT...CUSTODIAN', authenticator: 'AUTH...SPORTSAUTH',
+        physicalHash: 'sha256_jersey_cert_hash',
+        colors: ['#1fa86e','#155c3d','#d4a843'], transfers: 1,
+        splits: [{label:'Athlete',pct:50,color:'#d4a843'},{label:'NBA',pct:25,color:'#2d7fca'},{label:'Charity',pct:15,color:'#1fa86e'},{label:'Media',pct:7,color:'#7c4dcc'},{label:'Muse',pct:3,color:'#4a4e65'}],
+        cocreator1: {addr:'ATHLETE...NBA',share:5000,role:'Athlete',accepted:true},
+        cocreator2: {addr:'NBA...LEAGUE',share:2500,role:'NBA',accepted:true},
+        cocreator3: {addr:'CHARITY...ORG',share:1500,role:'Charity',accepted:true},
+        cocreator4: {addr:'MEDIA...PHOTO',share:700,role:'Media',accepted:true},
+        pendingCollabCount: 0,
+      },
+      {
+        name: "Neon Glitch Series #3", unit: "NGS3", royaltyBps: 750, listPrice: 8,
+        arc69Json: '{"standard":"arc69","description":"Glitch art series"}', metaHash: 'ghi789',
+        decayAfterRounds: 0, floorRoyaltyBps: 0, buyoutPrice: 0,
+        creator: "Pixel Anarchy", type: 'digital', isListed: true, royaltiesWaived: true,
+        colors: ['#c94d8a','#7c4dcc','#2d7fca'], transfers: 12,
+        splits: [{label:'Creator',pct:87.5,color:'#c94d8a'},{label:'Muse',pct:12.5,color:'#4a4e65'}],
+        cocreator1: {addr:'',share:0,role:'',accepted:false}, cocreator2: {addr:'',share:0,role:'',accepted:false},
+        cocreator3: {addr:'',share:0,role:'',accepted:false}, cocreator4: {addr:'',share:0,role:'',accepted:false},
+        pendingCollabCount: 0,
+      },
+      {
+        name: "Championship Ring", unit: "CHAMP", royaltyBps: 1500, listPrice: 0,
+        arc69Json: '{"standard":"arc69","description":"World Championship Ring RWA"}', metaHash: 'jkl012',
+        decayAfterRounds: 18662400, floorRoyaltyBps: 1000, buyoutPrice: 200000,
+        creator: "Ring Bearer LLC", type: 'rwa', isListed: true,
+        isPhysical: true, isAuthenticated: true, isRedeemed: false,
+        custodian: 'VAULT...RING', authenticator: 'AUTH...RINGAUTH',
+        physicalHash: 'sha256_ring_cert_hash',
+        auction: true, highBid: 12000, auctionMinBid: 10000,
+        auctionEndTime: Date.now() + 4 * 3600 * 1000,
+        colors: ['#d4a843','#f0c96a','#cc3a3a'], transfers: 0,
+        splits: [{label:'Athlete',pct:40,color:'#d4a843'},{label:'League',pct:30,color:'#2d7fca'},{label:'Charity',pct:20,color:'#1fa86e'},{label:'Muse',pct:10,color:'#4a4e65'}],
+        cocreator1: {addr:'ATHLETE...RING',share:4000,role:'Athlete',accepted:true},
+        cocreator2: {addr:'LEAGUE...ORG',share:3000,role:'League',accepted:true},
+        cocreator3: {addr:'CHARITY...FUND',share:2000,role:'Charity',accepted:true},
+        cocreator4: {addr:'',share:0,role:'',accepted:false},
+        pendingCollabCount: 0,
+      },
+      {
+        name: "Abstract Void #22", unit: "VOID", royaltyBps: 500, listPrice: 3.5,
+        arc69Json: '{"standard":"arc69","description":"Void series abstract"}', metaHash: 'mno345',
+        decayAfterRounds: 0, floorRoyaltyBps: 500, buyoutPrice: 0,
+        creator: "Void.art", type: 'digital', isListed: true,
+        colors: ['#08090d','#262b3a','#2d7fca'], transfers: 28,
+        splits: [{label:'Creator',pct:95,color:'#2d7fca'},{label:'Muse',pct:5,color:'#4a4e65'}],
+        cocreator1: {addr:'',share:0,role:'',accepted:false}, cocreator2: {addr:'',share:0,role:'',accepted:false},
+        cocreator3: {addr:'',share:0,role:'',accepted:false}, cocreator4: {addr:'',share:0,role:'',accepted:false},
+        pendingCollabCount: 0,
+      },
+      {
+        name: "Signed Baseball '84 WS", unit: "SB84", royaltyBps: 1000, listPrice: 850,
+        arc69Json: '{"standard":"arc69","description":"1984 World Series signed ball"}', metaHash: 'pqr678',
+        decayAfterRounds: 13996800, floorRoyaltyBps: 500, buyoutPrice: 15000,
+        creator: "Heritage Auth.", type: 'rwa', isListed: false,
+        isPhysical: true, isAuthenticated: false, isRedeemed: false,
+        custodian: 'VAULT...HERITAGE', authenticator: 'AUTH...HERITAGE',
+        physicalHash: 'sha256_baseball_cert_hash',
+        colors: ['#e07b1a','#a07820','#d4a843'], transfers: 4,
+        splits: [{label:'Athlete',pct:60,color:'#d4a843'},{label:'Heritage',pct:25,color:'#e07b1a'},{label:'Charity',pct:10,color:'#1fa86e'},{label:'Muse',pct:5,color:'#4a4e65'}],
+        cocreator1: {addr:'ATHLETE...BASEBALL',share:6000,role:'Athlete',accepted:true},
+        cocreator2: {addr:'HERITAGE...AUTH',share:2500,role:'Heritage',accepted:true},
+        cocreator3: {addr:'CHARITY...BASE',share:1000,role:'Charity',accepted:false},
+        cocreator4: {addr:'',share:0,role:'',accepted:false},
+        pendingCollabCount: 1,
+      },
+    ];
+
+    for (const seed of seeds) {
+      const record = {
+        royaltiesWaived: false,
+        auction: false,
+        highBid: 0,
+        highBidder: '',
+        auctionEndTime: 0,
+        auctionMinBid: 0,
+        mintRound: Date.now(),
+        isPhysical: false,
+        isAuthenticated: false,
+        isRedeemed: false,
+        custodian: '',
+        authenticator: '',
+        physicalHash: '',
+        redemptionMemo: '',
+        createdAt: Date.now() - Math.floor(Math.random() * 30 * 24 * 3600 * 1000),
+        ...seed
+      };
+      await this._addToStore(NFT_STORE, record);
+    }
+
+    // Seed initial stats
+    await this._put(STATS_STORE, {
+      key: 'global',
+      totalMinted: 1847,
+      totalVolume: 421800,
+      totalRoyalties: 31800,
+      totalSales: 2901,
+      liveAuctions: 7
+    });
+
+    console.log('[MuseDB] Seeded', seeds.length, 'NFTs');
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+//  GLOBAL STATE
+// ══════════════════════════════════════════════════════════════
+const db = new MuseDB();
+let walletConnected = false;
+let walletAddress = '';
+let walletProvider = '';
+let batchItems = [];
+let auctionBids = [];
+let auctionEndTime = null;
+let auctionInterval = null;
+let allNFTs = []; // in-memory cache refreshed from DB
+
+const COLLAB_ROLES = [
+  { key:'athlete', icon:'🏆', label:'Athlete / Primary', color:'--athlete', cls:'athlete' },
+  { key:'league',  icon:'🏛', label:'Team / League',     color:'--league',  cls:'league'  },
+  { key:'charity', icon:'💚', label:'Charity',           color:'--charity', cls:'charity'  },
+  { key:'media',   icon:'📸', label:'Photographer / Media', color:'--media', cls:'media'  },
+];
+
+// ── Initialize DB and load NFTs ──
+async function initDB() {
+  await db.ready;
+  await db.seedInitialData();
+  await refreshNFTs();
+  updateStatsBar();
+  document.getElementById('db-status').textContent = `✓ IndexedDB connected — ${allNFTs.length} NFTs loaded`;
+}
+
+async function refreshNFTs() {
+  allNFTs = await db.getAllNFTs();
+}
+
+async function updateStatsBar() {
+  const stats = await db.getStats();
+  const el = (id) => document.getElementById(id);
+  if (el('stat-volume')) el('stat-volume').textContent = (stats.totalVolume / 1000000).toFixed(2) + ' Ⱥ';
+  if (el('stat-minted')) el('stat-minted').textContent = stats.totalMinted.toLocaleString();
+  if (el('stat-royalties')) el('stat-royalties').textContent = (stats.totalRoyalties / 1000000).toFixed(2) + ' Ⱥ';
+  if (el('stat-auctions')) el('stat-auctions').textContent = allNFTs.filter(n => n.auction).length;
+}
+
+// ── PAGE NAV ──
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  event && event.currentTarget && event.currentTarget.classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t => {
+    if(t.textContent.toLowerCase().includes(name.toLowerCase().replace('marketplace','market'))) t.classList.add('active');
+  });
+  if(name === 'analytics') initCharts();
+  if(name === 'mint') { initCollabSlots(); initRWARoleSlots(); drawPreviewCanvas(); }
+  if(name === 'rwa') { initRWARoleSlots(); initRWAAuction(); }
+  if(name === 'profile') initProfile();
+  if(name === 'marketplace') { refreshNFTs().then(() => { renderNFTGrid(); updateStatsBar(); }); }
+}
+
+// ── WALLET ──
+function showWalletModal() { document.getElementById('wallet-modal').style.display = 'flex'; }
+function closeWalletModal(e) {
+  if(!e || e.target === document.getElementById('wallet-modal'))
+    document.getElementById('wallet-modal').style.display = 'none';
+}
+function connectWallet(provider) {
+  walletProvider = provider;
+  walletAddress = 'MUSE' + randomHex(6).toUpperCase() + 'ALGO' + randomHex(4).toUpperCase() + 'TESTNET';
+  walletConnected = true;
+  const btn = document.getElementById('walletBtn');
+  btn.className = 'wallet-btn connected';
+  btn.innerHTML = `<span class="wallet-dot"></span>${walletAddress.slice(0,6)}...${walletAddress.slice(-4)}`;
+  closeWalletModal();
+  toast('success', `${provider.charAt(0).toUpperCase()+provider.slice(1)} Connected`, `Address: ${walletAddress.slice(0,10)}...`);
+  document.getElementById('profile-addr').textContent = walletAddress;
+}
+
+// ── GENERATE NFT GRID ──
+function renderNFTGrid(filter = 'all') {
+  const grid = document.getElementById('nft-grid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  const nfts = allNFTs.filter(n => {
+    if(filter === 'all') return true;
+    if(filter === 'digital') return n.type === 'digital';
+    if(filter === 'rwa') return n.type === 'rwa';
+    if(filter === 'auction') return n.auction;
+    if(filter === 'waived') return n.royaltiesWaived;
+    return true;
+  });
+
+  nfts.forEach(nft => {
+    const card = document.createElement('div');
+    card.className = 'nft-card' + (nft.type === 'rwa' ? ' rwa' : '') + (nft.auction ? ' auction' : '');
+    card.onclick = () => showDetailModal(nft);
+
+    const badges = [];
+    if(nft.type === 'rwa') badges.push('<span class="badge badge-rwa">⬡ RWA</span>');
+    if(nft.isAuthenticated) badges.push('<span class="badge badge-auth">✓ Auth</span>');
+    if(nft.auction) badges.push('<span class="badge badge-auction">⧉ Auction</span>');
+    if(nft.isRedeemed) badges.push('<span class="badge badge-redeemed">📦 Redeemed</span>');
+    if(nft.royaltiesWaived) badges.push('<span class="badge badge-waived">⊞ Royalty-Free</span>');
+    if(nft.type === 'rwa' && !nft.isAuthenticated) badges.push('<span class="badge badge-pending">⏳ Pending Auth</span>');
+    if(nft.decayAfterRounds > 0 && !nft.royaltiesWaived) badges.push('<span class="badge badge-decaying">⏱ Decay</span>');
+
+    const splits = nft.splits || [];
+    const splitsBarHtml = splits.map(s => `<div class="split-seg" style="width:${s.pct}%;background:${s.color};"></div>`).join('');
+    const priceDisplay = nft.auction
+      ? `<span class="meta-value gold">${nft.highBid} Ⱥ bid</span>`
+      : `<span class="meta-value gold">${nft.listPrice} Ⱥ</span>`;
+
+    card.innerHTML = `
+      <div class="card-art">
+        <canvas class="art-canvas" data-colors="${encodeURIComponent(JSON.stringify(nft.colors || ['#d4a843','#2d7fca','#1fa86e']))}" data-seed="${nft.id}"></canvas>
+        <div class="card-badges">${badges.join('')}</div>
+      </div>
+      <div class="card-body">
+        <div class="card-creator">${nft.creator}</div>
+        <div class="card-name">${nft.name}</div>
+        <div class="splits-bar">${splitsBarHtml}</div>
+        <div class="card-meta">
+          <div class="meta-item"><div class="meta-label">Price</div>${priceDisplay}</div>
+          <div class="meta-item"><div class="meta-label">Royalty</div><div class="meta-value ${nft.royaltiesWaived ? 'red' : ''}">${nft.royaltiesWaived ? '0% (waived)' : (nft.royaltyBps/100) + '%'}</div></div>
+          <div class="meta-item"><div class="meta-label">Transfers</div><div class="meta-value">${nft.transfers}×</div></div>
+          <div class="meta-item"><div class="meta-label">Splits</div><div class="meta-value">${splits.length}</div></div>
+        </div>
+        <div class="card-actions">
+          ${nft.auction
+            ? `<button class="btn btn-amber" onclick="event.stopPropagation();bidOnNFT(${nft.id})">⧉ Bid</button>`
+            : `<button class="btn btn-primary" onclick="event.stopPropagation();buyNFT(${nft.id})" ${nft.type==='rwa'&&!nft.isAuthenticated?'disabled':''}>Buy</button>`
+          }
+          ${nft.buyoutPrice > 0 && !nft.royaltiesWaived ? `<button class="btn btn-violet" onclick="event.stopPropagation();buyOutRoyalty(${nft.id})" style="font-size:0.7rem;">⊞ Buy-Out</button>` : ''}
+          <button class="btn btn-ghost" onclick="event.stopPropagation();showDetailModal(allNFTs.find(n=>n.id===${nft.id}))">···</button>
+        </div>
+      </div>
+      ${nft.auction ? `<div class="auction-bar"><span class="auction-label">⧉ LIVE AUCTION</span><span class="auction-timer" id="timer-${nft.id}">Loading...</span></div>` : ''}
+    `;
+    grid.appendChild(card);
+  });
+
+  grid.querySelectorAll('canvas[data-seed]').forEach(canvas => {
+    const colors = JSON.parse(decodeURIComponent(canvas.dataset.colors));
+    const seed = parseInt(canvas.dataset.seed);
+    drawGenArt(canvas, colors, seed);
+  });
+
+  allNFTs.filter(n => n.auction).forEach(n => startAuctionTimer(n.id));
+}
+
+function filterCards(filter) {
+  document.querySelectorAll('[id^="f-"]').forEach(b => {
+    b.className = b.id === 'f-' + filter ? 'btn btn-primary' : 'btn btn-ghost';
+  });
+  renderNFTGrid(filter);
+}
+
+// ── GENERATIVE ART ──
+function drawGenArt(canvas, colors, seed) {
+  const size = canvas.parentElement.offsetWidth || 300;
+  canvas.width = size; canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  const rng = seededRng(seed);
+  const grad = ctx.createLinearGradient(0, 0, size, size);
+  grad.addColorStop(0, colors[0] + '22');
+  grad.addColorStop(1, colors[1] + '44');
+  ctx.fillStyle = '#0f1119'; ctx.fillRect(0, 0, size, size);
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, size, size);
+  for(let i = 0; i < 18; i++) {
+    const x = rng()*size, y = rng()*size, r = rng()*(size/4)+10, type = Math.floor(rng()*3);
+    ctx.globalAlpha = 0.12 + rng()*0.3;
+    ctx.fillStyle = colors[Math.floor(rng()*colors.length)];
+    ctx.beginPath();
+    if(type===0) ctx.arc(x,y,r,0,Math.PI*2);
+    else if(type===1) ctx.rect(x-r/2,y-r/2,r,r);
+    else { ctx.moveTo(x,y-r); ctx.lineTo(x+r,y+r); ctx.lineTo(x-r,y+r); }
+    ctx.fill();
+  }
+  ctx.globalAlpha=0.06; ctx.strokeStyle=colors[2]||colors[0]; ctx.lineWidth=1;
+  for(let i=0;i<size;i+=40){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,size);ctx.stroke();ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(size,i);ctx.stroke();}
+  ctx.globalAlpha=1;
+}
+function seededRng(seed) {
+  let s = seed*9301+49297;
+  return ()=>{s=(s*9301+49297)%233280;return s/233280;};
+}
+function randomHex(n) {
+  return Array.from({length:n},()=>Math.floor(Math.random()*16).toString(16)).join('');
+}
+
+// ── AUCTION TIMER ──
+const auctionEnds = {};
+function startAuctionTimer(id) {
+  const nft = allNFTs.find(n => n.id === id);
+  if(nft && nft.auctionEndTime) auctionEnds[id] = nft.auctionEndTime;
+  if(!auctionEnds[id]) auctionEnds[id] = Date.now() + (3600 + Math.random()*7200)*1000;
+  const el = document.getElementById('timer-' + id);
+  if(!el) return;
+  const update = () => {
+    const remaining = Math.max(0, auctionEnds[id] - Date.now());
+    const h = Math.floor(remaining/3600000), m = Math.floor((remaining%3600000)/60000), s = Math.floor((remaining%60000)/1000);
+    if(el) el.textContent = `${h}h ${m}m ${s}s`;
+  };
+  update();
+  setInterval(update, 1000);
+}
+
+// ── DETAIL MODAL ──
+function showDetailModal(nft) {
+  if(!nft) return;
+  document.getElementById('dm-title').textContent = nft.name;
+  const splits = nft.splits || [];
+  const splitsHtml = splits.map(s => `
+    <div class="split-row">
+      <div class="split-label">${s.label}</div>
+      <div class="split-track"><div class="split-fill" style="width:${s.pct}%;background:${s.color};"></div></div>
+      <div class="split-pct">${s.pct}%</div>
+    </div>
+  `).join('');
+  const rwaHtml = nft.type === 'rwa' ? `
+    <div class="physical-state">
+      <div style="font-size:0.72rem;font-weight:700;color:var(--text2);letter-spacing:1px;text-transform:uppercase;margin-bottom:0.8rem;">RWA Physical Status</div>
+      <div class="physical-timeline">
+        <div class="timeline-step"><div class="timeline-dot done">✓</div><div class="timeline-label">Minted</div></div>
+        <div class="timeline-step"><div class="timeline-dot ${nft.isAuthenticated ? 'done' : 'current'}">${nft.isAuthenticated ? '✓' : '⏳'}</div><div class="timeline-label">Authenticated</div></div>
+        <div class="timeline-step"><div class="timeline-dot ${nft.isListed ? 'done' : ''}">${nft.isListed ? '✓' : '◯'}</div><div class="timeline-label">Listed</div></div>
+        <div class="timeline-step"><div class="timeline-dot ${nft.transfers>0?'done':''}">${nft.transfers>0?'✓':'◯'}</div><div class="timeline-label">Sold</div></div>
+        <div class="timeline-step"><div class="timeline-dot ${nft.isRedeemed?'done':''}">${nft.isRedeemed?'✓':'◯'}</div><div class="timeline-label">Redeemed</div></div>
+      </div>
+    </div>` : '';
+  document.getElementById('dm-body').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;">
+      <canvas id="dm-canvas" style="width:100%;aspect-ratio:1;border-radius:4px;display:block;"></canvas>
+      <div>
+        <div class="meta-item" style="margin-bottom:1rem;"><div class="meta-label">Creator</div><div class="meta-value">${nft.creator}</div></div>
+        <div class="meta-item" style="margin-bottom:1rem;"><div class="meta-label">Unit Symbol</div><div class="meta-value">${nft.unit}</div></div>
+        <div class="meta-item" style="margin-bottom:1rem;"><div class="meta-label">Ownership Transfers</div><div class="meta-value">${nft.transfers}×</div></div>
+        <div class="meta-item" style="margin-bottom:1rem;"><div class="meta-label">Royalty</div><div class="meta-value">${nft.royaltiesWaived ? '<span style="color:var(--crimson)">0% (waived by buy-out)</span>' : (nft.royaltyBps/100) + '%' + (nft.decayAfterRounds > 0 ? ` → ${nft.floorRoyaltyBps/100}% after decay` : '')}</div></div>
+        ${nft.buyoutPrice > 0 && !nft.royaltiesWaived ? `<div class="meta-item"><div class="meta-label">Buy-Out Price</div><div class="meta-value gold">${nft.buyoutPrice} Ⱥ</div></div>` : ''}
+        ${nft.auction ? `<div class="meta-item" style="margin-top:0.7rem;"><div class="meta-label">Highest Bid</div><div class="meta-value gold" style="font-size:1.2rem;">${nft.highBid} Ⱥ</div></div>` : ''}
+      </div>
+    </div>
+    ${rwaHtml}
+    <div style="margin-top:1.2rem;">
+      <div style="font-size:0.72rem;font-weight:700;color:var(--text2);letter-spacing:1px;text-transform:uppercase;margin-bottom:1rem;">Royalty Split Breakdown</div>
+      ${splitsHtml}
+    </div>
+    <div style="display:flex;gap:8px;margin-top:1.5rem;">
+      ${nft.auction
+        ? `<button class="btn btn-amber" style="flex:1;" onclick="closeDetailModal();bidOnNFT(${nft.id})">⧉ Place Bid</button>`
+        : `<button class="btn btn-primary" style="flex:1;" onclick="closeDetailModal();buyNFT(${nft.id})" ${nft.type==='rwa'&&!nft.isAuthenticated?'disabled':''}>Buy Now${nft.listPrice > 0 ? ' — ' + nft.listPrice + ' Ⱥ' : ''}</button>`
+      }
+      ${nft.buyoutPrice > 0 && !nft.royaltiesWaived ? `<button class="btn btn-violet" onclick="closeDetailModal();buyOutRoyalty(${nft.id})">⊞ Buy Out Royalties (${nft.buyoutPrice} Ⱥ)</button>` : ''}
+    </div>
+  `;
+  document.getElementById('detail-modal').style.display = 'flex';
+  setTimeout(() => {
+    const c = document.getElementById('dm-canvas');
+    if(c) { c.width=260; c.height=260; drawGenArt(c, nft.colors || ['#d4a843','#2d7fca','#1fa86e'], nft.id+100); }
+  }, 50);
+}
+function closeDetailModal(e) {
+  if(!e || e.target === document.getElementById('detail-modal'))
+    document.getElementById('detail-modal').style.display = 'none';
+}
+
+// ── BUY / BID / BUYOUT (now DB-backed) ──
+async function buyNFT(id) {
+  if(!walletConnected) { showWalletModal(); return; }
+  const nft = allNFTs.find(n => n.id === id);
+  if(!nft) return;
+  toast('info', 'Transaction Submitted', `Purchasing "${nft.name}" for ${nft.listPrice} Ⱥ...`);
+  setTimeout(async () => {
+    try {
+      await db.buyNFT(id, nft.listPrice * 1000000, walletAddress);
+      await refreshNFTs();
+      renderNFTGrid();
+      updateStatsBar();
+      toast('success', 'Purchase Complete!', `You now own "${nft.name}". Royalties distributed to ${(nft.splits||[]).length} recipients.`);
+    } catch(e) { toast('error', 'Purchase Failed', e.message); }
+  }, 1800);
+}
+
+async function bidOnNFT(id) {
+  if(!walletConnected) { showWalletModal(); return; }
+  const nft = allNFTs.find(n => n.id === id);
+  if(!nft) return;
+  const newBid = (nft.highBid || nft.auctionMinBid || 100) + Math.ceil((nft.highBid || nft.auctionMinBid || 100) * 0.1);
+  toast('info', 'Bid Submitted', `Bid of ${newBid} Ⱥ on "${nft.name}"`);
+  setTimeout(async () => {
+    try {
+      await db.placeBid(id, newBid, walletAddress);
+      await refreshNFTs();
+      renderNFTGrid();
+      toast('success', 'Bid Accepted!', `You are the highest bidder at ${newBid} Ⱥ. Previous bidder refunded automatically.`);
+    } catch(e) { toast('error', 'Bid Failed', e.message); }
+  }, 1600);
+}
+
+async function buyOutRoyalty(id) {
+  if(!walletConnected) { showWalletModal(); return; }
+  const nft = allNFTs.find(n => n.id === id);
+  if(!nft) return;
+  toast('warning', 'Royalty Buy-Out', `Paying ${nft.buyoutPrice} Ⱥ to permanently remove royalties from "${nft.name}"...`);
+  setTimeout(async () => {
+    try {
+      await db.buyOutRoyalty(id, nft.buyoutPrice * 1000000, walletAddress);
+      await refreshNFTs();
+      renderNFTGrid();
+      toast('success', 'Royalties Waived!', `All future sales of "${nft.name}" will incur 0% royalty. Creator received buy-out payment.`);
+    } catch(e) { toast('error', 'Buy-Out Failed', e.message); }
+  }, 2000);
+}
+
+// ── MINT SINGLE (DB-backed) ──
+function updateMintPreview() {
+  const name = document.getElementById('m-name').value || 'NFT Name';
+  const unit = document.getElementById('m-unit').value || 'UNIT';
+  const price = parseFloat(document.getElementById('m-price').value) || 0;
+  const royalty = parseFloat(document.getElementById('m-royalty').value);
+  const floor = parseFloat(document.getElementById('m-floor').value) || 0;
+  const buyout = parseFloat(document.getElementById('m-buyout').value) || 0;
+  const decay = parseInt(document.getElementById('m-decay').value) || 0;
+  document.getElementById('m-royalty-val').textContent = royalty + '%';
+  document.getElementById('prev-name').textContent = name;
+  document.getElementById('prev-unit').textContent = unit;
+  document.getElementById('prev-price').textContent = price > 0 ? price + ' Ⱥ' : '—';
+  document.getElementById('prev-royalty').textContent = royalty + '%';
+  document.getElementById('prev-floor').textContent = decay > 0 ? `${floor}% after ${Math.ceil(decay/777600)} mo` : 'No decay';
+  document.getElementById('prev-buyout').textContent = buyout > 0 ? buyout + ' Ⱥ' : 'Disabled';
+  const creatorPct = royalty, musePct = 2.5, sellerPct = 100 - creatorPct - musePct;
+  document.getElementById('prev-split-viz').innerHTML = `
+    <div class="split-row"><div class="split-label">Creator</div><div class="split-track"><div class="split-fill" style="width:${creatorPct}%;background:var(--gold);"></div></div><div class="split-pct">${creatorPct}%</div></div>
+    <div class="split-row"><div class="split-label">Muse Fee</div><div class="split-track"><div class="split-fill" style="width:${musePct}%;background:var(--violet);"></div></div><div class="split-pct">${musePct}%</div></div>
+    <div class="split-row"><div class="split-label">Seller</div><div class="split-track"><div class="split-fill" style="width:${sellerPct}%;background:var(--sapphire);"></div></div><div class="split-pct">${sellerPct.toFixed(1)}%</div></div>
+  `;
+  if(decay > 0) { document.getElementById('decay-info').textContent = `${royalty}% → ${floor}% in ~${Math.ceil(decay/777600)}mo`; document.getElementById('decay-fill').style.width='100%'; }
+  else { document.getElementById('decay-info').textContent = `${royalty}% → no decay`; document.getElementById('decay-fill').style.width='100%'; }
+  drawPreviewCanvas();
+}
+function drawPreviewCanvas() {
+  const canvas = document.getElementById('preview-canvas');
+  if(!canvas) return;
+  const size = canvas.parentElement.offsetWidth || 300;
+  canvas.width = size; canvas.height = size;
+  drawGenArt(canvas, ['#d4a843','#2d7fca','#1fa86e'], Math.floor(Math.random()*100));
+}
+
+async function mintSingleNFT() {
+  if(!walletConnected) { showWalletModal(); return; }
+  const name = document.getElementById('m-name').value;
+  const unit = document.getElementById('m-unit').value || 'NFT';
+  const price = parseFloat(document.getElementById('m-price').value);
+  const royaltyBps = parseFloat(document.getElementById('m-royalty').value) * 100;
+  const floorBps = parseFloat(document.getElementById('m-floor').value || 0) * 100;
+  const buyout = parseFloat(document.getElementById('m-buyout').value || 0);
+  const decay = parseInt(document.getElementById('m-decay').value || 0);
+  const arc69 = document.getElementById('m-metadata').value || '{"standard":"arc69"}';
+  const hash = document.getElementById('m-hash').value || 'auto-' + randomHex(16);
+  if(!name) { toast('error', 'Missing Fields', 'Please enter an NFT name.'); return; }
+  if(!price || price <= 0) { toast('error', 'Missing Fields', 'Please enter a valid list price.'); return; }
+  toast('info', 'Transaction Submitted', `Minting "${name}" on Algorand testnet...`);
+  setTimeout(async () => {
+    try {
+      const id = await db.mintNFT({
+        name, unit, royaltyBps, listPrice: price, arc69Json: arc69, metaHash: hash,
+        decayAfterRounds: decay, floorRoyaltyBps: floorBps, buyoutPrice: buyout,
+        creator: walletAddress,
+        splits: [{label:'Creator',pct:parseFloat(document.getElementById('m-royalty').value),color:'#d4a843'},{label:'Muse',pct:2.5,color:'#7c4dcc'}]
+      });
+      await refreshNFTs();
+      updateStatsBar();
+      toast('success', 'Minted!', `"${name}" (ID: ${id}) is now live. ARC-69 metadata stored in IndexedDB.`);
+    } catch(e) { toast('error', 'Mint Failed', e.message); }
+  }, 2000);
+}
+
+// ── MINT TABS ──
+function showMintTab(tab) {
+  ['single','batch','collab'].forEach(t => {
+    document.getElementById('mint-'+t).style.display = t===tab ? '' : 'none';
+  });
+  document.querySelectorAll('.inner-tab').forEach((b,i) => {
+    b.classList.toggle('active', ['single','batch','collab'][i] === tab);
+  });
+}
+
+// ── BATCH MINT ──
+function addBatchItem() {
+  const name = document.getElementById('b-name').value;
+  const price = document.getElementById('b-price').value;
+  const royalty = document.getElementById('b-royalty').value;
+  if(!name) return;
+  batchItems.push({name, price, royalty});
+  renderBatchList();
+  document.getElementById('b-name').value = '';
+}
+function renderBatchList() {
+  const list = document.getElementById('batch-list');
+  list.innerHTML = batchItems.map((item,i) => `
+    <div class="batch-item"><div class="batch-num">${i+1}</div>
+    <div class="batch-info"><div class="batch-name">${item.name}</div><div class="batch-meta">${item.price} Ⱥ · ${item.royalty}% royalty</div></div>
+    <button class="batch-remove" onclick="removeBatch(${i})">✕</button></div>
+  `).join('');
+  document.getElementById('batch-count').textContent = batchItems.length + ' items';
+}
+function removeBatch(i) { batchItems.splice(i,1); renderBatchList(); }
+
+async function executeBatchMint() {
+  if(!walletConnected) { showWalletModal(); return; }
+  if(batchItems.length === 0) { toast('error','Empty Queue','Add items before batch minting.'); return; }
+  toast('info','Batch Mint Initiated', `Submitting ${batchItems.length} NFTs to IndexedDB...`);
+  let i = 0;
+  const mintNext = async () => {
+    if(i >= batchItems.length) {
+      await refreshNFTs(); updateStatsBar();
+      toast('success','Batch Complete!', `All ${batchItems.length} NFTs minted and stored in database.`);
+      batchItems=[]; renderBatchList(); return;
+    }
+    const item = batchItems[i];
+    try {
+      await db.mintNFT({ name: item.name, unit: item.name.replace(/\s/g,'').slice(0,8).toUpperCase(),
+        royaltyBps: parseFloat(item.royalty)*100, listPrice: parseFloat(item.price),
+        arc69Json: '{"standard":"arc69"}', metaHash: randomHex(32), creator: walletAddress,
+        splits: [{label:'Creator',pct:parseFloat(item.royalty),color:'#d4a843'},{label:'Muse',pct:2.5,color:'#7c4dcc'}]
+      });
+      toast('info',`Minted ${i+1}/${batchItems.length}`, `"${item.name}" stored in DB.`);
+    } catch(e) { toast('error', 'Mint Error', `${item.name}: ${e.message}`); }
+    i++;
+    setTimeout(mintNext, 600);
+  };
+  mintNext();
+}
+
+// ── COLLAB SLOTS ──
+function initCollabSlots() {
+  const el = document.getElementById('collab-slots');
+  if(!el) return;
+  el.innerHTML = COLLAB_ROLES.map((role,i) => `
+    <div class="role-slot">
+      <div class="role-icon ${role.cls}">${role.icon}</div>
+      <div>
+        <div class="role-name">${role.label}</div>
+        <input type="text" placeholder="ALGO address" id="co-addr-${i}" style="margin-top:6px;background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:6px 10px;color:var(--text0);font-family:'Syne Mono',monospace;font-size:0.72rem;width:100%;" oninput="updateCollabSplits()"/>
+      </div>
+      <div>
+        <div class="meta-label" style="margin-bottom:4px;">Share %</div>
+        <input type="number" placeholder="25" min="0" max="100" id="co-share-${i}" style="width:70px;background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:6px 8px;color:var(--gold);font-family:'Syne Mono',monospace;font-size:0.82rem;" oninput="updateCollabSplits()"/>
+      </div>
+      <div class="role-status status-pending" id="co-status-${i}">PENDING</div>
+    </div>
+  `).join('');
+}
+function updateCollabSplits() {
+  let total = 0;
+  for(let i=0;i<4;i++) { const s = parseFloat(document.getElementById('co-share-'+i)?.value)||0; total+=s; }
+  const bar = document.getElementById('collab-total-bar'), pct = document.getElementById('collab-total-pct');
+  if(bar){bar.style.width=Math.min(100,total)+'%';bar.style.background=total>100?'var(--crimson)':total===100?'var(--emerald)':'var(--gold)';}
+  if(pct){pct.textContent=total.toFixed(0)+' / 100%';pct.style.color=total>100?'var(--crimson)':total===100?'var(--emerald)':'var(--text0)';}
+}
+function simulateAcceptance() {
+  for(let i=0;i<4;i++){const el=document.getElementById('co-status-'+i);if(el&&document.getElementById('co-addr-'+i)?.value){setTimeout(()=>{el.textContent='ACCEPTED';el.className='role-status status-accepted';},(i+1)*600);}}
+  toast('info','Simulating Acceptance','Each co-creator sending accept_collaboration() transaction...');
+}
+async function mintCollab() {
+  if(!walletConnected) { showWalletModal(); return; }
+  const name = document.getElementById('m-name').value || 'Collab NFT';
+  const cos = [0,1,2,3].map(i => ({
+    addr: document.getElementById('co-addr-'+i)?.value||'',
+    share: parseFloat(document.getElementById('co-share-'+i)?.value||0)*100,
+    role: COLLAB_ROLES[i].label
+  }));
+  toast('info','Collaboration NFT Submitted','Minting with co-creator registry to IndexedDB...');
+  try {
+    const id = await db.mintNFT({
+      name, unit: name.replace(/\s/g,'').slice(0,8).toUpperCase(), royaltyBps: 1000, listPrice: 10,
+      arc69Json: '{"standard":"arc69"}', metaHash: randomHex(32), creator: walletAddress,
+      splits: cos.filter(c=>c.addr).map((c,i)=>({label:COLLAB_ROLES[i].label,pct:c.share/100,color:['#d4a843','#2d7fca','#1fa86e','#7c4dcc'][i]}))
+    });
+    await refreshNFTs(); updateStatsBar();
+    setTimeout(()=>toast('success','Minted!',`NFT ID:${id} live. Co-creators notified to accept their roles.`), 2000);
+  } catch(e) { toast('error','Mint Failed',e.message); }
+}
+
+// ── RWA ROLES ──
+function initRWARoleSlots() {
+  const el = document.getElementById('rwa-role-slots');
+  if(!el) return;
+  el.innerHTML = COLLAB_ROLES.map((role,i) => `
+    <div style="display:grid;grid-template-columns:32px 1fr 140px 80px;gap:8px;align-items:center;margin-bottom:10px;">
+      <div class="role-icon ${role.cls}" style="width:28px;height:28px;font-size:0.8rem;">${role.icon}</div>
+      <input type="text" placeholder="${role.label} address" id="r-co-addr-${i}" style="background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:7px 10px;color:var(--text0);font-family:'Syne Mono',monospace;font-size:0.72rem;"/>
+      <input type="text" placeholder="Role (e.g. Athlete)" id="r-co-role-${i}" value="${role.label}" style="background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:7px 10px;color:var(--text0);font-size:0.72rem;font-family:'Syne',sans-serif;"/>
+      <input type="number" placeholder="%" id="r-co-share-${i}" min="0" max="100" style="background:var(--bg0);border:1px solid var(--line);border-radius:3px;padding:7px 8px;color:var(--gold);font-family:'Syne Mono',monospace;font-size:0.82rem;width:100%;"/>
+    </div>
+  `).join('');
+}
+
+async function mintRWA() {
+  if(!walletConnected) { showWalletModal(); return; }
+  const name = document.getElementById('r-name').value;
+  if(!name) { toast('error','Missing Fields','Enter a name for the RWA.'); return; }
+  const royaltyBps = parseFloat(document.getElementById('r-royalty').value||10)*100;
+  const listPrice = parseFloat(document.getElementById('r-price').value||100);
+  const physicalHash = document.getElementById('r-hash').value || 'sha256-' + randomHex(32);
+  const custodian = document.getElementById('r-custodian').value || 'VAULT...DEFAULT';
+  const authenticator = document.getElementById('r-auth').value || 'AUTH...DEFAULT';
+  toast('info','RWA Token Submitted', `Minting "${name}" — awaiting authenticator approval...`);
+  setTimeout(async ()=>{
+    try {
+      const id = await db.mintNFTRWA({
+        name, unit: name.replace(/\s/g,'').slice(0,8).toUpperCase(),
+        royaltyBps, listPrice, arc69Json: '{"standard":"arc69","type":"rwa"}', physicalHash,
+        custodian, authenticator, buyoutPrice: 0, creator: walletAddress,
+      });
+      await refreshNFTs(); updateStatsBar();
+      toast('success','RWA Minted!', `Token ID:${id} created in PENDING state. Authenticator must call validate_physical_asset().`);
+    } catch(e){ toast('error','RWA Mint Failed',e.message); }
+  }, 2200);
+}
+
+// ── RWA AUCTION SIMULATION ──
+function initRWAAuction() {
+  auctionBids = [
+    { bidder: 'VAULT...A3K2', amount: 10000, winning: false },
+    { bidder: 'ATHL...B9X1', amount: 11500, winning: false },
+    { bidder: 'ANON...ZZ42', amount: 12000, winning: true },
+  ];
+  renderBidHistory();
+  if(!auctionEndTime) auctionEndTime = Date.now() + 4*3600*1000;
+  if(auctionInterval) clearInterval(auctionInterval);
+  auctionInterval = setInterval(() => {
+    const remaining = Math.max(0, auctionEndTime - Date.now());
+    const h=Math.floor(remaining/3600000),m=Math.floor((remaining%3600000)/60000),s=Math.floor((remaining%60000)/1000);
+    const el = document.getElementById('auction-timer');
+    if(el) el.textContent = `${h}h ${m}m ${s}s`;
+    const hb = document.getElementById('auction-high');
+    if(hb) hb.textContent = Math.max(...auctionBids.map(b=>b.amount)) + ' Ⱥ';
+  }, 1000);
+}
+function renderBidHistory() {
+  const list = document.getElementById('bid-history-list');
+  if(!list) return;
+  list.innerHTML = auctionBids.map(b => `
+    <div class="bid-row ${b.winning?'winning':''}">
+      <span class="${b.winning?'bid-winner':''}">${b.winning?'👑 ':''} ${b.bidder}</span>
+      <span class="bid-amount">${b.amount} Ⱥ</span>
+    </div>
+  `).join('');
+}
+async function placeBid() {
+  if(!walletConnected) { showWalletModal(); return; }
+  const amt = parseFloat(document.getElementById('bid-amount').value);
+  const max = Math.max(...auctionBids.map(b=>b.amount));
+  if(!amt || amt <= max) { toast('error','Invalid Bid', `Bid must exceed current highest of ${max} Ⱥ.`); return; }
+  auctionBids.forEach(b=>b.winning=false);
+  auctionBids.push({ bidder: walletAddress.slice(0,4)+'...'+walletAddress.slice(-4), amount: amt, winning: true });
+  renderBidHistory();
+  // Also update DB for the championship ring NFT (id 4) if it's in auction
+  const auctionNFT = allNFTs.find(n => n.auction);
+  if(auctionNFT) {
+    try { await db.placeBid(auctionNFT.id, amt, walletAddress); await refreshNFTs(); } catch(e) {}
+  }
+  toast('success','Bid Placed!', `You bid ${amt} Ⱥ. Previous bidder refunded automatically by contract.`);
+}
+function simulateAuthenticate() {
+  document.getElementById('tl-auth').className='timeline-dot done';document.getElementById('tl-auth').textContent='✓';
+  document.getElementById('tl-listed').className='timeline-dot current';document.getElementById('tl-listed').textContent='⏳';
+  toast('success','Asset Authenticated!','validate_physical_asset() called by certified authenticator. NFT is now LIVE on marketplace.');
+}
+function simulateRedeem() {
+  document.getElementById('tl-listed').className='timeline-dot done';document.getElementById('tl-listed').textContent='✓';
+  document.getElementById('tl-sold').className='timeline-dot done';document.getElementById('tl-sold').textContent='✓';
+  document.getElementById('tl-redeemed').className='timeline-dot done';document.getElementById('tl-redeemed').textContent='✓';
+  toast('success','Physical Item Redeemed!','redeem_physical_asset() executed. Tracking info stored on-chain. NFT locked from further sales.');
+}
+function simulateStartAuction() {
+  toast('info','Auction Started','start_auction() submitted with 48h duration. NFT now in auction mode.');
+  setTimeout(()=>toast('success','Auction Live!','First bid threshold set. Bidders can now call place_bid().'), 1500);
+}
+
+// ── ANALYTICS CHARTS ──
+let chartsInit = false;
+function initCharts() {
+  if(chartsInit) return; chartsInit = true;
+  const chartOpts = {
+    responsive: true,
+    plugins: { legend: { labels: { color: '#7a7f9a', font: { family: 'Syne' } } } },
+    scales: { x: { ticks:{color:'#7a7f9a'},grid:{color:'#2a2f42'} }, y: { ticks:{color:'#7a7f9a'},grid:{color:'#2a2f42'} } }
+  };
+  const months = ['Sep','Oct','Nov','Dec','Jan','Feb'];
+  new Chart(document.getElementById('chart-volume'),{type:'line',data:{labels:months,datasets:[{label:'Volume (Ⱥ)',data:[320,580,420,890,1240,768],borderColor:'#d4a843',backgroundColor:'rgba(212,168,67,0.08)',fill:true,tension:0.4,pointBackgroundColor:'#d4a843'}]},options:chartOpts});
+  new Chart(document.getElementById('chart-category'),{type:'doughnut',data:{labels:['Digital NFT','RWA Authenticated','RWA Pending','Royalty-Free'],datasets:[{data:[68,16,10,6],backgroundColor:['#2d7fca','#1fa86e','#e07b1a','#7c4dcc'],borderColor:'#0f1119',borderWidth:3}]},options:{responsive:true,plugins:{legend:{labels:{color:'#7a7f9a',font:{family:'Syne'}}}}}});
+  const decayLabels = Array.from({length:25},(_,i)=>i===0?'Now':(i%6===0?`${i}mo`:''));
+  const decayValues = Array.from({length:25},(_,i)=>i<12?10-(i/12)*5:5);
+  new Chart(document.getElementById('chart-decay'),{type:'line',data:{labels:decayLabels,datasets:[{label:'Royalty % (10% → 5%)',data:decayValues,borderColor:'#cc3a3a',backgroundColor:'rgba(204,58,58,0.07)',fill:true,tension:0,pointBackgroundColor:'#cc3a3a'}]},options:{...chartOpts,scales:{...chartOpts.scales,y:{...chartOpts.scales.y,min:0,max:12}}}});
+  new Chart(document.getElementById('chart-artists'),{type:'bar',data:{labels:['Studio Meridian','Sports Vault','Pixel Anarchy','Heritage Auth','Void.art'],datasets:[{label:'Volume (Ⱥ)',data:[892,4200,320,1100,88],backgroundColor:['#d4a843','#1fa86e','#c94d8a','#e07b1a','#2d7fca']}]},options:chartOpts});
+}
+
+function updateDecayCalc() {
+  const init=parseFloat(document.getElementById('calc-init').value)||10;
+  const floor=parseFloat(document.getElementById('calc-floor').value)||5;
+  const months=parseInt(document.getElementById('calc-months').value)||12;
+  const rounds=months*777600;
+  document.getElementById('decay-calc-output').innerHTML=
+    `Initial royalty: <span style="color:var(--gold)">${init}%</span>   |   Floor after ${months} months: <span style="color:var(--crimson)">${floor}%</span><br/>` +
+    `Decay begins at round offset: <span style="color:var(--sapphire)">${rounds.toLocaleString()}</span><br/>` +
+    `Total reduction: <span style="color:var(--emerald)">${(init-floor).toFixed(1)}%</span> over ${months} months — permanently held at ${floor}%`;
+}
+
+// ── PROFILE ──
+function initProfile() {
+  const c = document.getElementById('avatar-canvas');
+  if(c){c.width=80;c.height=80;drawGenArt(c,['#d4a843','#2d7fca','#1fa86e'],42);}
+  const invites = document.getElementById('collab-invites');
+  if(invites) invites.innerHTML = `
+    <div class="batch-item"><div class="batch-num">1</div><div class="batch-info"><div class="batch-name">"Finals Reel #07"</div><div class="batch-meta">Studio Meridian · 30% of 10% royalty · Role: Photographer</div></div><button class="btn btn-green" style="padding:6px 14px;font-size:0.72rem;" onclick="acceptCollab(this)">Accept</button></div>
+    <div class="batch-item"><div class="batch-num">2</div><div class="batch-info"><div class="batch-name">"Championship Drop"</div><div class="batch-meta">Sports Vault · 25% of 15% royalty · Role: Team/League</div></div><button class="btn btn-green" style="padding:6px 14px;font-size:0.72rem;" onclick="acceptCollab(this)">Accept</button></div>
+  `;
+  const offers = document.getElementById('buyout-offers');
+  if(offers) offers.innerHTML = `
+    <div class="batch-item"><div class="batch-num">💎</div><div class="batch-info"><div class="batch-name">"Solstice Bloom #07"</div><div class="batch-meta">Offer: 500 Ⱥ · Current royalty: 10%</div></div><button class="btn btn-violet" style="padding:6px 14px;font-size:0.72rem;" onclick="acceptBuyout(this)">Review</button></div>
+  `;
+}
+function acceptCollab(btn){btn.textContent='✓ Accepted';btn.className='btn btn-ghost';btn.disabled=true;toast('success','Collaboration Accepted','accept_collaboration() signed on-chain. Role and royalty share now active.');}
+function acceptBuyout(btn){btn.textContent='Accepting...';toast('warning','Buy-Out Offer','Reviewing buy_out_royalty() terms. Transaction will permanently waive future royalties.');}
+
+// ── TOAST ──
+function toast(type, title, msg) {
+  const icons={success:'✓',error:'✕',info:'ℹ',warning:'⚠'};
+  const el=document.createElement('div');
+  el.className='toast '+type;
+  el.innerHTML=`<div class="toast-icon">${icons[type]||'•'}</div><div class="toast-body"><div class="toast-title">${title}</div><div class="toast-msg">${msg}</div></div>`;
+  document.getElementById('toasts').appendChild(el);
+  setTimeout(()=>el.remove(),5000);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  DATABASE INTEGRATION TEST SUITE
+// ══════════════════════════════════════════════════════════════
+
+async function clearDatabase() {
+  await db.ready;
+  await db.clearAll();
+  allNFTs = [];
+  await db.seedInitialData();
+  await refreshNFTs();
+  renderNFTGrid();
+  updateStatsBar();
+  document.getElementById('db-status').textContent = `✓ Database reset — ${allNFTs.length} NFTs seeded`;
+  toast('info', 'Database Reset', 'All data cleared and re-seeded from initial dataset.');
+}
+
+async function runAllTests() {
+  const container = document.getElementById('test-results');
+  const summary = document.getElementById('test-summary');
+  container.innerHTML = '';
+  summary.textContent = 'Running...';
+  const btn = document.getElementById('run-tests-btn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Running...';
+
+  // Reset DB to clean state for tests
+  await db.clearAll();
+  allNFTs = [];
+
+  const results = [];
+
+  async function test(name, category, fn) {
+    const start = Date.now();
+    try {
+      await fn();
+      const ms = Date.now() - start;
+      results.push({ name, category, pass: true, ms });
+    } catch(e) {
+      results.push({ name, category, pass: false, error: e.message, ms: Date.now() - start });
+    }
+    renderTestResult(results[results.length - 1], container);
+  }
+
+  // ── CATEGORY 1: Database Initialization ──
+  await test('IndexedDB opens successfully', 'DB Init', async () => {
+    if (!db.db) throw new Error('DB not initialized');
+  });
+
+  await test('All object stores created', 'DB Init', async () => {
+    const storeNames = Array.from(db.db.objectStoreNames);
+    if (!storeNames.includes('nfts')) throw new Error('nfts store missing');
+    if (!storeNames.includes('transactions')) throw new Error('transactions store missing');
+    if (!storeNames.includes('stats')) throw new Error('stats store missing');
+  });
+
+  await test('Initial state is empty', 'DB Init', async () => {
+    const nfts = await db.getAllNFTs();
+    if (nfts.length !== 0) throw new Error(`Expected 0 NFTs, got ${nfts.length}`);
+  });
+
+  // ── CATEGORY 2: mint_nft ──
+  let mintedDigitalId;
+  await test('mint_nft() — valid digital NFT', 'mint_nft', async () => {
+    mintedDigitalId = await db.mintNFT({
+      name: 'Test Bloom #01', unit: 'TBLM', royaltyBps: 1000, listPrice: 50,
+      arc69Json: '{"standard":"arc69"}', metaHash: 'testhash001',
+      decayAfterRounds: 0, floorRoyaltyBps: 0, buyoutPrice: 500,
+      creator: 'CREATOR...TEST001',
+      splits: [{label:'Creator',pct:10,color:'#d4a843'},{label:'Muse',pct:2.5,color:'#7c4dcc'}]
+    });
+    if (!mintedDigitalId) throw new Error('No ID returned from mintNFT');
+  });
+
+  await test('mint_nft() — NFT persisted in DB', 'mint_nft', async () => {
+    const nft = await db.getNFT(mintedDigitalId);
+    if (!nft) throw new Error('NFT not found after mint');
+    if (nft.name !== 'Test Bloom #01') throw new Error(`Name mismatch: ${nft.name}`);
+    if (nft.royaltyBps !== 1000) throw new Error(`Royalty mismatch: ${nft.royaltyBps}`);
+    if (!nft.isListed) throw new Error('NFT should be listed after mint');
+    if (nft.type !== 'digital') throw new Error(`Type mismatch: ${nft.type}`);
+  });
+
+  await test('mint_nft() — rejects royalty > 20%', 'mint_nft', async () => {
+    try {
+      await db.mintNFT({ name:'Bad', unit:'BAD', royaltyBps: 2100, listPrice: 10, arc69Json:'{}', metaHash:'x', creator:'X' });
+      throw new Error('Should have thrown');
+    } catch(e) {
+      if (!e.message.includes('Royalty exceeds')) throw new Error(`Wrong error: ${e.message}`);
+    }
+  });
+
+  await test('mint_nft() — rejects price ≤ 0', 'mint_nft', async () => {
+    try {
+      await db.mintNFT({ name:'Bad', unit:'BAD', royaltyBps: 500, listPrice: 0, arc69Json:'{}', metaHash:'x', creator:'X' });
+      throw new Error('Should have thrown');
+    } catch(e) {
+      if (!e.message.includes('Price must be')) throw new Error(`Wrong error: ${e.message}`);
+    }
+  });
+
+  await test('mint_nft() — rejects floor > royalty', 'mint_nft', async () => {
+    try {
+      await db.mintNFT({ name:'Bad', unit:'BAD', royaltyBps: 500, listPrice: 10, floorRoyaltyBps: 600, arc69Json:'{}', metaHash:'x', creator:'X' });
+      throw new Error('Should have thrown');
+    } catch(e) {
+      if (!e.message.includes('Floor must be')) throw new Error(`Wrong error: ${e.message}`);
+    }
+  });
+
+  await test('mint_nft() — stats updated (totalMinted)', 'mint_nft', async () => {
+    const stats = await db.getStats();
+    if (stats.totalMinted < 1) throw new Error(`totalMinted should be ≥ 1, got ${stats.totalMinted}`);
+  });
+
+  // ── CATEGORY 3: mint_nft_rwa ──
+  let mintedRwaId;
+  await test('mint_nft_rwa() — valid RWA mint', 'mint_nft_rwa', async () => {
+    mintedRwaId = await db.mintNFTRWA({
+      name: 'Test Jersey #99', unit: 'JRSY', royaltyBps: 1200, listPrice: 5000,
+      arc69Json: '{"standard":"arc69","type":"rwa"}', physicalHash: 'sha256_test_jersey',
+      custodian: 'CUSTODIAN...TEST', authenticator: 'AUTH...TEST',
+      buyoutPrice: 0, creator: 'CREATOR...SPORTS',
+      co1: { addr: 'ATHLETE...ADDR', share: 5000, role: 'Athlete' },
+      co2: { addr: 'LEAGUE...ADDR', share: 2500, role: 'League' },
+      co3: { addr: '', share: 0, role: '' },
+      co4: { addr: '', share: 0, role: '' },
+    });
+    if (!mintedRwaId) throw new Error('No ID returned from mintNFTRWA');
+  });
+
+  await test('mint_nft_rwa() — RWA starts unlisted, unauthenticated', 'mint_nft_rwa', async () => {
+    const nft = await db.getNFT(mintedRwaId);
+    if (nft.isListed) throw new Error('RWA should NOT be listed initially');
+    if (nft.isAuthenticated) throw new Error('RWA should NOT be authenticated initially');
+    if (nft.type !== 'rwa') throw new Error(`Type should be rwa, got ${nft.type}`);
+  });
+
+  await test('mint_nft_rwa() — co-creator counts tracked', 'mint_nft_rwa', async () => {
+    const nft = await db.getNFT(mintedRwaId);
+    if (nft.pendingCollabCount !== 2) throw new Error(`Expected 2 pending co-creators, got ${nft.pendingCollabCount}`);
+  });
+
+  await test('mint_nft_rwa() — rejects co-creator shares > 100%', 'mint_nft_rwa', async () => {
+    try {
+      await db.mintNFTRWA({ name:'Bad', unit:'BAD', royaltyBps:500, listPrice:10, arc69Json:'{}', physicalHash:'x', custodian:'x', authenticator:'x', creator:'x',
+        co1:{addr:'A',share:6000,role:'x'}, co2:{addr:'B',share:6000,role:'x'}, co3:{addr:'',share:0,role:''}, co4:{addr:'',share:0,role:''} });
+      throw new Error('Should have thrown');
+    } catch(e) {
+      if (!e.message.includes('exceed 100%')) throw new Error(`Wrong error: ${e.message}`);
+    }
+  });
+
+  // ── CATEGORY 4: validate_physical_asset ──
+  await test('validate_physical_asset() — authenticator activates NFT', 'validate_physical_asset', async () => {
+    await db.validatePhysicalAsset(mintedRwaId, 'AUTH...TEST');
+    const nft = await db.getNFT(mintedRwaId);
+    if (!nft.isAuthenticated) throw new Error('NFT should be authenticated');
+    if (!nft.isListed) throw new Error('NFT should be listed after authentication');
+  });
+
+  await test('validate_physical_asset() — rejects wrong authenticator', 'validate_physical_asset', async () => {
+    // Mint fresh RWA for this test
+    const id = await db.mintNFTRWA({
+      name: 'Test RWA Auth Fail', unit: 'FAIL', royaltyBps: 500, listPrice: 10,
+      arc69Json:'{}', physicalHash:'x', custodian:'CUST', authenticator:'CORRECT...AUTH', creator:'x',
+      co1:{addr:'',share:0,role:''}, co2:{addr:'',share:0,role:''}, co3:{addr:'',share:0,role:''}, co4:{addr:'',share:0,role:''}
+    });
+    try {
+      await db.validatePhysicalAsset(id, 'WRONG...AUTH');
+      throw new Error('Should have thrown');
+    } catch(e) {
+      if (!e.message.includes('authenticator')) throw new Error(`Wrong error: ${e.message}`);
+    }
+  });
+
+  await test('validate_physical_asset() — rejects double authentication', 'validate_physical_asset', async () => {
+    try {
+      await db.validatePhysicalAsset(mintedRwaId, 'AUTH...TEST');
+      throw new Error('Should have thrown');
+    } catch(e) {
+      if (!e.message.includes('authenticated')) throw new Error(`Wrong error: ${e.message}`);
+    }
+  });
+
+  // ── CATEGORY 5: accept_collaboration ──
+  await test('accept_collaboration() — co-creator accepts slot', 'accept_collaboration', async () => {
+    const slot = await db.acceptCollaboration(mintedRwaId, 1, 'ATHLETE...ADDR');
+    if (slot !== 1) throw new Error(`Expected slot 1, got ${slot}`);
+    const nft = await db.getNFT(mintedRwaId);
+    if (!nft.cocreator1.accepted) throw new Error('Co-creator 1 should be accepted');
+    if (nft.pendingCollabCount !== 1) throw new Error(`Pending count should be 1, got ${nft.pendingCollabCount}`);
+  });
+
+  await test('accept_collaboration() — rejects wrong address for slot', 'accept_collaboration', async () => {
+    try {
+      await db.acceptCollaboration(mintedRwaId, 2, 'WRONG...ADDR');
+      throw new Error('Should have thrown');
+    } catch(e) {
+      if (!e.message.includes('slot')) throw new Error(`Wrong error: ${e.message}`);
+    }
+  });
+
+  await test('accept_collaboration() — rejects double accept', 'accept_collaboration', async () => {
+    // First accept slot 1 was already done
+    try {
+      await db.acceptCollaboration(mintedRwaId, 1, 'ATHLETE...ADDR');
+      throw new Error('Should have thrown');
+    } catch(e) {
+      if (!e.message.includes('accepted')) throw new Error(`Wrong error: ${e.message}`);
+    }
+  });
+
+  // ── CATEGORY 6: list_nft ──
+  await test('list_nft() — valid relist at new price', 'list_nft', async () => {
+    const newPrice = await db.listNFT(mintedDigitalId, 75);
+    if (newPrice !== 75) throw new Error(`Expected 75, got ${newPrice}`);
+    const nft = await db.getNFT(mintedDigitalId);
+    if (nft.listPrice !== 75) throw new Error('Price not updated in DB');
+    if (!nft.isListed) throw new Error('NFT should be listed');
+  });
+
+  await test('list_nft() — rejects price ≤ 0', 'list_nft', async () => {
+    try {
+      await db.listNFT(mintedDigitalId, 0);
+      throw new Error('Should have thrown');
+    } catch(e) {
+      if (!e.message.includes('Price must be')) throw new Error(`Wrong error: ${e.message}`);
+    }
+  });
+
+  // ── CATEGORY 7: start_auction ──
+  let auctionNftId;
+  await test('start_auction() — creator starts auction', 'start_auction', async () => {
+    auctionNftId = await db.mintNFT({
+      name: 'Auction Test NFT', unit: 'AUCT', royaltyBps: 800, listPrice: 100,
+      arc69Json: '{}', metaHash: 'auctionhash', creator: 'AUCTION...CREATOR',
+      splits: [{label:'Creator',pct:8,color:'#d4a843'},{label:'Muse',pct:2.5,color:'#7c4dcc'}]
+    });
+    walletAddress = 'AUCTION...CREATOR'; // simulate as creator
+    const endTime = await db.startAuction(auctionNftId, 3600000, 50);
+    if (endTime <= Date.now()) throw new Error('Auction end time should be in future');
+    const nft = await db.getNFT(auctionNftId);
+    if (!nft.auction) throw new Error('NFT should be in auction mode');
+    if (nft.auctionMinBid !== 50) throw new Error(`Min bid mismatch: ${nft.auctionMinBid}`);
+  });
+
+  await test('start_auction() — rejects duration ≤ 0', 'start_auction', async () => {
+    const id = await db.mintNFT({ name:'X', unit:'X', royaltyBps:500, listPrice:10, arc69Json:'{}', metaHash:'x', creator:'X' });
+    try { await db.startAuction(id, 0, 10); throw new Error('Should have thrown'); }
+    catch(e) { if (!e.message.includes('Duration')) throw new Error(`Wrong error: ${e.message}`); }
+  });
+
+  await test('start_auction() — rejects double auction', 'start_auction', async () => {
+    try { await db.startAuction(auctionNftId, 3600000, 50); throw new Error('Should have thrown'); }
+    catch(e) { if (!e.message.includes('already active')) throw new Error(`Wrong error: ${e.message}`); }
+  });
+
+  // ── CATEGORY 8: place_bid ──
+  await test('place_bid() — valid bid above minimum', 'place_bid', async () => {
+    const bid = await db.placeBid(auctionNftId, 60, 'BIDDER...ALPHA');
+    if (bid !== 60) throw new Error(`Bid amount mismatch: ${bid}`);
+    const nft = await db.getNFT(auctionNftId);
+    if (nft.highBid !== 60) throw new Error(`highBid should be 60, got ${nft.highBid}`);
+    if (nft.highBidder !== 'BIDDER...ALPHA') throw new Error(`highBidder mismatch`);
+  });
+
+  await test('place_bid() — valid outbid', 'place_bid', async () => {
+    await db.placeBid(auctionNftId, 80, 'BIDDER...BETA');
+    const nft = await db.getNFT(auctionNftId);
+    if (nft.highBid !== 80) throw new Error(`highBid should be 80, got ${nft.highBid}`);
+    if (nft.highBidder !== 'BIDDER...BETA') throw new Error(`highBidder should be BIDDER...BETA`);
+  });
+
+  await test('place_bid() — rejects bid below minimum', 'place_bid', async () => {
+    try { await db.placeBid(auctionNftId, 30, 'BIDDER...LOW'); throw new Error('Should have thrown'); }
+    catch(e) { if (!e.message.includes('minimum')) throw new Error(`Wrong error: ${e.message}`); }
+  });
+
+  await test('place_bid() — rejects bid not exceeding current highest', 'place_bid', async () => {
+    try { await db.placeBid(auctionNftId, 75, 'BIDDER...SAME'); throw new Error('Should have thrown'); }
+    catch(e) { if (!e.message.includes('exceed')) throw new Error(`Wrong error: ${e.message}`); }
+  });
+
+  await test('place_bid() — rejects bid on non-auction NFT', 'place_bid', async () => {
+    try { await db.placeBid(mintedDigitalId, 100, 'X'); throw new Error('Should have thrown'); }
+    catch(e) { if (!e.message.includes('No active auction')) throw new Error(`Wrong error: ${e.message}`); }
+  });
+
+  // ── CATEGORY 9: settle_auction ──
+  await test('settle_auction() — rejects settling before end time', 'settle_auction', async () => {
+    try { await db.settleAuction(auctionNftId); throw new Error('Should have thrown'); }
+    catch(e) { if (!e.message.includes('not yet ended')) throw new Error(`Wrong error: ${e.message}`); }
+  });
+
+  await test('settle_auction() — settles expired auction', 'settle_auction', async () => {
+    // Create a separate already-expired auction NFT for settlement test
+    const expiredId = await db.mintNFT({ name:'Expired', unit:'EXPD', royaltyBps:500, listPrice:10, arc69Json:'{}', metaHash:'x', creator:'EXPD...CREATOR' });
+    // Manually set auction as expired
+    const nft = await db.getNFT(expiredId);
+    nft.auction = true;
+    nft.auctionEndTime = Date.now() - 1000; // already ended 1 second ago
+    nft.auctionMinBid = 5;
+    nft.highBid = 20;
+    nft.highBidder = 'WINNER...ADDR';
+    await db._put(NFT_STORE, nft);
+    const royalties = await db.settleAuction(expiredId);
+    if (typeof royalties !== 'number') throw new Error('settle_auction should return royalty amount');
+    const settled = await db.getNFT(expiredId);
+    if (settled.auction) throw new Error('NFT should no longer be in auction mode');
+    if (settled.highBid !== 0) throw new Error('highBid should be reset to 0');
+  });
+
+  // ── CATEGORY 10: buy_nft ──
+  await test('buy_nft() — valid fixed-price purchase', 'buy_nft', async () => {
+    // Make sure digital NFT is listed
+    await db.listNFT(mintedDigitalId, 75);
+    const royalties = await db.buyNFT(mintedDigitalId, 75000000, 'BUYER...ADDR');
+    if (typeof royalties !== 'number') throw new Error('Should return royalty amount');
+    const nft = await db.getNFT(mintedDigitalId);
+    if (nft.isListed) throw new Error('NFT should be delisted after purchase');
+    if (nft.transfers !== 1) throw new Error(`transfers should be 1, got ${nft.transfers}`);
+  });
+
+  await test('buy_nft() — rejects unlisted NFT', 'buy_nft', async () => {
+    try { await db.buyNFT(mintedDigitalId, 100, 'X'); throw new Error('Should have thrown'); }
+    catch(e) { if (!e.message.includes('not listed')) throw new Error(`Wrong error: ${e.message}`); }
+  });
+
+  await test('buy_nft() — rejects insufficient payment', 'buy_nft', async () => {
+    await db.listNFT(mintedDigitalId, 100); // relist
+    try { await db.buyNFT(mintedDigitalId, 50, 'X'); throw new Error('Should have thrown'); }
+    catch(e) { if (!e.message.includes('Insufficient')) throw new Error(`Wrong error: ${e.message}`); }
+  });
+
+  await test('buy_nft() — rejects auction NFT', 'buy_nft', async () => {
+    try { await db.buyNFT(auctionNftId, 100, 'X'); throw new Error('Should have thrown'); }
+    catch(e) { if (!e.message.includes('auction')) throw new Error(`Wrong error: ${e.message}`); }
+  });
+
+  await test('buy_nft() — rejects unauthenticated RWA', 'buy_nft', async () => {
+    // Create unauthenticated RWA
+    const id = await db.mintNFTRWA({ name:'Unauth', unit:'UNAUTH', royaltyBps:500, listPrice:10, arc69Json:'{}', physicalHash:'x', custodian:'x', authenticator:'AUTH', creator:'x',
+      co1:{addr:'',share:0,role:''}, co2:{addr:'',share:0,role:''}, co3:{addr:'',share:0,role:''}, co4:{addr:'',share:0,role:''} });
+    // Force listed to test authentication check
+    const nft = await db.getNFT(id);
+    nft.isListed = true;
+    await db._put(NFT_STORE, nft);
+    try { await db.buyNFT(id, 100000, 'BUYER'); throw new Error('Should have thrown'); }
+    catch(e) { if (!e.message.includes('authenticated')) throw new Error(`Wrong error: ${e.message}`); }
+  });
+
+  await test('buy_nft() — stats updated after purchase', 'buy_nft', async () => {
+    const statsBefore = await db.getStats();
+    await db.listNFT(mintedDigitalId, 50);
+    await db.buyNFT(mintedDigitalId, 50000000, 'BUYER2');
+    const statsAfter = await db.getStats();
+    if (statsAfter.totalSales <= statsBefore.totalSales) throw new Error('totalSales should increase after purchase');
+    if (statsAfter.totalVolume <= statsBefore.totalVolume) throw new Error('totalVolume should increase after purchase');
+  });
+
+  // ── CATEGORY 11: buy_out_royalty ──
+  let buyoutNftId;
+  await test('buy_out_royalty() — valid buy-out', 'buy_out_royalty', async () => {
+    buyoutNftId = await db.mintNFT({ name:'Buyout Test', unit:'BOUT', royaltyBps:1000, listPrice:50, buyoutPrice:200, arc69Json:'{}', metaHash:'x', creator:'CREATOR...BUYOUT' });
+    await db.buyOutRoyalty(buyoutNftId, 200000000, 'BUYER...BUYOUT');
+    const nft = await db.getNFT(buyoutNftId);
+    if (!nft.royaltiesWaived) throw new Error('Royalties should be waived');
+    if (nft.buyoutPrice !== 0) throw new Error('buyoutPrice should be 0 after buy-out');
+  });
+
+  await test('buy_out_royalty() — rejects if no buyout available', 'buy_out_royalty', async () => {
+    const id = await db.mintNFT({ name:'NoBuyout', unit:'NBY', royaltyBps:500, listPrice:10, buyoutPrice:0, arc69Json:'{}', metaHash:'x', creator:'X' });
+    try { await db.buyOutRoyalty(id, 100, 'X'); throw new Error('Should have thrown'); }
+    catch(e) { if (!e.message.includes('not available')) throw new Error(`Wrong error: ${e.message}`); }
+  });
+
+  await test('buy_out_royalty() — rejects double buy-out', 'buy_out_royalty', async () => {
+    try { await db.buyOutRoyalty(buyoutNftId, 200, 'X'); throw new Error('Should have thrown'); }
+    catch(e) { if (!e.message.includes('already waived')) throw new Error(`Wrong error: ${e.message}`); }
+  });
+
+  await test('buy_out_royalty() — rejects insufficient payment', 'buy_out_royalty', async () => {
+    const id = await db.mintNFT({ name:'BuyoutFail', unit:'BFAIL', royaltyBps:500, listPrice:10, buyoutPrice:1000, arc69Json:'{}', metaHash:'x', creator:'X' });
+    try { await db.buyOutRoyalty(id, 500, 'X'); throw new Error('Should have thrown'); }
+    catch(e) { if (!e.message.includes('Insufficient')) throw new Error(`Wrong error: ${e.message}`); }
+  });
+
+  // ── CATEGORY 12: redeem_physical_asset ──
+  await test('redeem_physical_asset() — custodian redeems item', 'redeem_physical_asset', async () => {
+    await db.redeemPhysicalAsset(mintedRwaId, 'TRACK-12345-UPS', 'CUSTODIAN...TEST');
+    const nft = await db.getNFT(mintedRwaId);
+    if (!nft.isRedeemed) throw new Error('NFT should be redeemed');
+    if (nft.isListed) throw new Error('NFT should be delisted after redemption');
+    if (nft.redemptionMemo !== 'TRACK-12345-UPS') throw new Error('Redemption memo not stored');
+  });
+
+  await test('redeem_physical_asset() — rejects non-physical NFT', 'redeem_physical_asset', async () => {
+    try { await db.redeemPhysicalAsset(mintedDigitalId, 'TRACK', 'X'); throw new Error('Should have thrown'); }
+    catch(e) { if (!e.message.includes('physical asset')) throw new Error(`Wrong error: ${e.message}`); }
+  });
+
+  await test('redeem_physical_asset() — rejects wrong custodian', 'redeem_physical_asset', async () => {
+    const id = await db.mintNFTRWA({ name:'CustodianFail', unit:'CF', royaltyBps:500, listPrice:10, arc69Json:'{}', physicalHash:'x', custodian:'CORRECT...CUST', authenticator:'AUTH', creator:'x',
+      co1:{addr:'',share:0,role:''}, co2:{addr:'',share:0,role:''}, co3:{addr:'',share:0,role:''}, co4:{addr:'',share:0,role:''} });
+    await db.validatePhysicalAsset(id, 'AUTH');
+    try { await db.redeemPhysicalAsset(id, 'TRACK', 'WRONG...CUST'); throw new Error('Should have thrown'); }
+    catch(e) { if (!e.message.includes('custodian')) throw new Error(`Wrong error: ${e.message}`); }
+  });
+
+  await test('redeem_physical_asset() — rejects double redemption', 'redeem_physical_asset', async () => {
+    try { await db.redeemPhysicalAsset(mintedRwaId, 'TRACK2', 'CUSTODIAN...TEST'); throw new Error('Should have thrown'); }
+    catch(e) { if (!e.message.includes('Already redeemed')) throw new Error(`Wrong error: ${e.message}`); }
+  });
+
+  // ── CATEGORY 13: update_royalty ──
+  await test('update_royalty() — valid royalty update', 'update_royalty', async () => {
+    const id = await db.mintNFT({ name:'RoyaltyUpdate', unit:'ROYA', royaltyBps:1000, listPrice:10, arc69Json:'{}', metaHash:'x', creator:'X' });
+    const result = await db.updateRoyalty(id, 1500);
+    if (result !== 1500) throw new Error(`Expected 1500, got ${result}`);
+    const nft = await db.getNFT(id);
+    if (nft.royaltyBps !== 1500) throw new Error('Royalty not updated in DB');
+  });
+
+  await test('update_royalty() — rejects royalty > 20%', 'update_royalty', async () => {
+    const id = await db.mintNFT({ name:'RoyaltyFail', unit:'RFAIL', royaltyBps:500, listPrice:10, arc69Json:'{}', metaHash:'x', creator:'X' });
+    try { await db.updateRoyalty(id, 2100); throw new Error('Should have thrown'); }
+    catch(e) { if (!e.message.includes('exceeds 20%')) throw new Error(`Wrong error: ${e.message}`); }
+  });
+
+  await test('update_royalty() — rejects update on waived NFT', 'update_royalty', async () => {
+    try { await db.updateRoyalty(buyoutNftId, 500); throw new Error('Should have thrown'); }
+    catch(e) { if (!e.message.includes('waived')) throw new Error(`Wrong error: ${e.message}`); }
+  });
+
+  // ── CATEGORY 14: Transaction Log ──
+  await test('Transaction log — entries written for all operations', 'Transaction Log', async () => {
+    const txs = await db.getTransactions();
+    if (txs.length === 0) throw new Error('No transactions logged');
+    const types = new Set(txs.map(t => t.type));
+    const expected = ['mint', 'mint_rwa', 'authenticate', 'accept_collab', 'list', 'start_auction', 'place_bid', 'buy', 'buyout_royalty', 'redeem'];
+    for (const t of expected) {
+      if (!types.has(t)) throw new Error(`Missing tx type: ${t}`);
+    }
+  });
+
+  await test('Transaction log — filter by NFT ID', 'Transaction Log', async () => {
+    const txs = await db.getTransactions(mintedRwaId);
+    if (txs.length === 0) throw new Error('No transactions for RWA NFT');
+    const allBelongToNFT = txs.every(t => t.nftId === mintedRwaId);
+    if (!allBelongToNFT) throw new Error('Filtered transactions include wrong NFT IDs');
+  });
+
+  // ── CATEGORY 15: Data Persistence / Aggregate Stats ──
+  await test('Stats — totalMinted updates correctly', 'Persistence & Stats', async () => {
+    const stats = await db.getStats();
+    if (stats.totalMinted < 5) throw new Error(`Expected at least 5 minted, got ${stats.totalMinted}`);
+  });
+
+  await test('Stats — totalSales updates after buy', 'Persistence & Stats', async () => {
+    const stats = await db.getStats();
+    if (stats.totalSales < 1) throw new Error(`Expected at least 1 sale, got ${stats.totalSales}`);
+  });
+
+  await test('Stats — totalRoyalties updates after buy', 'Persistence & Stats', async () => {
+    const stats = await db.getStats();
+    if (stats.totalRoyalties < 0) throw new Error('totalRoyalties should be non-negative');
+  });
+
+  await test('getAllNFTs() — returns all persisted NFTs', 'Persistence & Stats', async () => {
+    const nfts = await db.getAllNFTs();
+    if (nfts.length < 3) throw new Error(`Expected at least 3 NFTs, got ${nfts.length}`);
+  });
+
+  await test('clearAll() then seed — database resets cleanly', 'Persistence & Stats', async () => {
+    await db.clearAll();
+    const before = await db.getAllNFTs();
+    if (before.length !== 0) throw new Error('Expected empty DB after clear');
+    await db.seedInitialData();
+    const after = await db.getAllNFTs();
+    if (after.length !== 6) throw new Error(`Expected 6 seeded NFTs, got ${after.length}`);
+  });
+
+  // ── FINAL RESULTS ──
+  const passed = results.filter(r => r.pass).length;
+  const failed = results.filter(r => !r.pass).length;
+  const total = results.length;
+
+  // Re-seed DB for normal UI use
+  await db.clearAll();
+  await db.seedInitialData();
+  await refreshNFTs();
+  renderNFTGrid();
+  updateStatsBar();
+
+  summary.textContent = `${passed}/${total} passed · ${failed} failed`;
+  summary.style.color = failed === 0 ? 'var(--emerald)' : 'var(--crimson)';
+  btn.disabled = false;
+  btn.textContent = '▶ Run All Tests';
+
+  if (failed === 0) {
+    toast('success', `All ${total} Tests Passed! ✓`, 'IndexedDB integration fully verified across all smart contract operations.');
+  } else {
+    toast('error', `${failed} Test(s) Failed`, `${passed}/${total} tests passed. Check results panel for details.`);
+  }
+}
+
+function renderTestResult(result, container) {
+  const el = document.createElement('div');
+  el.style.cssText = `
+    display:grid; grid-template-columns:24px 1fr auto auto;
+    gap:12px; align-items:center;
+    padding:10px 16px;
+    background:${result.pass ? 'rgba(31,168,110,0.06)' : 'rgba(204,58,58,0.08)'};
+    border:1px solid ${result.pass ? 'rgba(31,168,110,0.2)' : 'rgba(204,58,58,0.25)'};
+    border-radius:4px;
+    font-size:0.82rem;
+  `;
+  el.innerHTML = `
+    <span style="font-size:1rem;color:${result.pass ? 'var(--emerald)' : 'var(--crimson)'}">${result.pass ? '✓' : '✕'}</span>
+    <div>
+      <div style="font-weight:600;color:var(--text0)">${result.name}</div>
+      ${result.error ? `<div style="font-size:0.72rem;color:var(--crimson);margin-top:2px;font-family:'Syne Mono',monospace">${result.error}</div>` : ''}
+    </div>
+    <span style="font-family:'Syne Mono',monospace;font-size:0.72rem;color:var(--text2);white-space:nowrap;">${result.category}</span>
+    <span style="font-family:'Syne Mono',monospace;font-size:0.72rem;color:var(--text3);white-space:nowrap;">${result.ms}ms</span>
+  `;
+  container.appendChild(el);
+}
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', async () => {
+  await initDB();
+  renderNFTGrid();
+  initCollabSlots();
+  initRWARoleSlots();
+  updateMintPreview();
+  drawPreviewCanvas();
+  animateStat('stat-minted', 1847, '');
+  animateStat('stat-auctions', 7, '');
+});
+
+function animateStat(id, target, suffix) {
+  let current = 0;
+  const el = document.getElementById(id);
+  if(!el) return;
+  const step = target/60;
+  const interval = setInterval(()=>{current=Math.min(current+step,target);el.textContent=Math.floor(current).toLocaleString()+(suffix?' '+suffix:'');if(current>=target)clearInterval(interval);},20);
+}
+</script>
+
+
+</body></html>
